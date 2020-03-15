@@ -29,6 +29,17 @@ services:
     networks:
       - app-network
 
+  vue_frontend:
+    image: 'node:10-alpine'
+    container_name: vue-frontend
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./dashboard_frontend:/app
+    ports:
+      - '8080:8080'
+    command: 'yarn serve'
+
 networks:
   app-network:
     driver: bridge
