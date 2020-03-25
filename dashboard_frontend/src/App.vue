@@ -1,12 +1,29 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <LeftBar />
+      <NavBar />
+      <v-content>
+        <v-container class="fill-height" fluid>
+          <router-view />
+        </v-container>
+      </v-content>
     </div>
-    <router-view />
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import NavBar from "@/components/NavBar.vue";
+import LeftBar from "@/components/LeftBar.vue";
+
+export default {
+  components: {
+    NavBar,
+    LeftBar
+  }
+};
+</script>
 
 <style>
 #app {
@@ -15,10 +32,6 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
 }
 
 #nav a {
