@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+  <v-navigation-drawer :value="getDrawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
     <v-list dense>
       <template v-for="item in items">
         <v-row v-if="item.heading" :key="item.heading" align="center">
@@ -45,8 +45,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "LeftBar",
+  computed: {
+    ...mapGetters(["getDrawer"])
+  },
   data: () => ({
     drawer: null,
     items: [
