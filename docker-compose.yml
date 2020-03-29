@@ -35,7 +35,7 @@ services:
     restart: unless-stopped
     working_dir: /app
     volumes:
-      - ./dashboard_frontend:/app
+      - ./frontend:/app
     ports:
       - '8080:8080'
     command: 'yarn serve'

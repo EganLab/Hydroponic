@@ -14,7 +14,7 @@ var routes = require('./routes/index');
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, { useUnifiedTopology: true, useNewUrlParser: true }, (error) => {
+mongoose.connect(configDB.url, { useUnifiedTopology: true, useNewUrlParser: true }, error => {
   if (error) console.log(error);
   else console.log('Connect successfully');
 });
