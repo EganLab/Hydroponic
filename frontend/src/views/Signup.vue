@@ -15,8 +15,8 @@
               <v-text-field
                 prepend-icon="person"
                 name="login"
-                v-model="username"
-                label="Login"
+                v-model="name"
+                label="Name"
                 :rules="[rules.required]"
               ></v-text-field>
 
@@ -50,9 +50,9 @@
           </v-card-text>
           <v-divider light></v-divider>
           <v-card-actions>
-            <v-btn to="/login" round color="black" dark>Login</v-btn>
+            <v-btn to="/login" rounded color="black" dark>Login</v-btn>
             <v-spacer></v-spacer>
-            <v-btn round color="success" @click.prevent="register()">
+            <v-btn rounded color="success" @click="registerUser">
               Register
               <v-icon>keyboard_arrow_up</v-icon>
             </v-btn>
@@ -64,11 +64,13 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "signup",
   data: () => ({
     userExists: false,
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -81,26 +83,16 @@ export default {
     }
   }),
   methods: {
-    register() {
-      // if (this.valid()) {
-      //   this.$store
-      //     .dispatch("REGISTER", {
-      //       username: this.username,
-      //       email: this.email,
-      //       password: this.password
-      //     })
-      //     .then(({ status }) => {
-      //       this.$store.commit("SET_NOTIFICATION", {
-      //         display: true,
-      //         text: "Your account has been successfully created! you can now login.",
-      //         alertClass: "danger"
-      //       });
-      //       this.$router.push("/login");
-      //     })
-      //     .catch((error) => {
-      //       this.userExists = true;
-      //     });
-      // }
+    ...mapActions(["register"]),
+    registerUser() {
+      this.register({
+        email: this.email,
+        password: this.password,
+        name: this.name
+      }).then((success) => {
+        if (success) this.$router.push("/");
+        else this.userExists = true;
+      });
     },
     valid() {
       return this.password === this.confirm_password;

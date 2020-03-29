@@ -12,17 +12,22 @@
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
 import NavBar from "./components/NavBar";
 import LeftBar from "./components/LeftBar";
+
+// import { mapActions } from "vuex";
 
 export default {
   name: "App",
 
   components: {
-    // HelloWorld,
     NavBar,
     LeftBar
   }
+  // mounted: function() {
+  //   this.$nextTick(function() {
+  //     console.log("aaa");
+  //   });
+  // }
 };
 </script>
