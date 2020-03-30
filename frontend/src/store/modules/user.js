@@ -5,9 +5,12 @@ export default {
     user: {
       name
     },
-    token: null
+    token: localStorage.getItem("user-token") || ""
   },
-  getters: {},
+  getters: {
+    isAuthenticated: (state) => !!state.token,
+    authStatus: (state) => state.status
+  },
   mutations: {
     // update User info
     UPDATE_USER_INFO: (state, { user }) => {
@@ -23,11 +26,15 @@ export default {
       try {
         let response = await axios.post("http://localhost:30001/users/login", payload);
         if (response.status === 200) {
+          // store user token
+          localStorage.setItem("user-token", response.data.token);
           commit("UPDATE_TOKEN", response.data);
           commit("UPDATE_USER_INFO", response.data);
           return true;
         } else return false;
       } catch (error) {
+        // if the request fails, remove any possible user token if possible
+        localStorage.removeItem("user-token");
         return false;
       }
     },
@@ -43,24 +50,6 @@ export default {
         return false;
       }
     }
-    // REGISTER: ({ commit }, { username, email, password }) => {
-    //   return new Promise((resolve, reject) => {
-    //     axios
-    //       .post(`register`, {
-    //         username,
-    //         email,
-    //         password
-    //       })
-    //       .then(({ data, status }) => {
-    //         if (status === 201) {
-    //           resolve(true);
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         reject(error);
-    //       });
-    //   });
-    // },
     // REFRESH_TOKEN: () => {
     //   return new Promise((resolve, reject) => {
     //     axios

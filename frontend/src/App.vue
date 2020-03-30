@@ -1,7 +1,9 @@
 <template>
   <v-app>
-    <LeftBar />
-    <NavBar />
+    <div v-show="isAuthenticated">
+      <LeftBar />
+      <NavBar />
+    </div>
 
     <v-content>
       <v-container class="fill-height" fluid>
@@ -15,7 +17,7 @@
 import NavBar from "./components/NavBar";
 import LeftBar from "./components/LeftBar";
 
-// import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -23,11 +25,15 @@ export default {
   components: {
     NavBar,
     LeftBar
+  },
+  computed: {
+    ...mapGetters(["isAuthenticated"])
+  },
+  created: function() {
+    if (this.$store.getters.isAuthenticated) {
+      console.log("login");
+      // this.$store.dispatch(USER_REQUEST);
+    }
   }
-  // mounted: function() {
-  //   this.$nextTick(function() {
-  //     console.log("aaa");
-  //   });
-  // }
 };
 </script>
