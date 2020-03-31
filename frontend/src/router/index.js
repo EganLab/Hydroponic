@@ -8,7 +8,7 @@ import store from "../store";
 Vue.use(VueRouter);
 
 const ifNotAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
+  if (!store.getters.isAuthenticated) {
     next();
     return;
   }
@@ -16,7 +16,7 @@ const ifNotAuthenticated = (to, from, next) => {
 };
 
 const ifAuthenticated = (to, from, next) => {
-  if (!store.getters.isAuthenticated) {
+  if (store.getters.isAuthenticated) {
     next();
     return;
   }
@@ -44,7 +44,8 @@ const routes = [
   {
     path: "/signup",
     name: "Signup",
-    component: Signup
+    component: Signup,
+    beforeEnter: ifNotAuthenticated
   }
 ];
 
