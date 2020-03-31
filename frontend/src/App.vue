@@ -17,7 +17,7 @@
 import NavBar from "./components/NavBar";
 import LeftBar from "./components/LeftBar";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -27,12 +27,12 @@ export default {
     LeftBar
   },
   computed: {
-    ...mapGetters(["isAuthenticated"])
+    ...mapGetters(["isAuthenticated"]),
+    ...mapActions(["validateToken"])
   },
   created: function() {
-    if (this.$store.getters.isAuthenticated) {
-      console.log("login");
-      // this.$store.dispatch(USER_REQUEST);
+    if (this.$store.getters.isHaveToken) {
+      this.validateToken;
     }
   }
 };

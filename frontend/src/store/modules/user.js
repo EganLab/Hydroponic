@@ -2,19 +2,18 @@ import axios from "axios";
 
 export default {
   state: {
-    user: {
-      name
-    },
+    user: {},
     token: localStorage.getItem("user-token") || ""
   },
   getters: {
-    isAuthenticated: (state) => !!state.token,
+    isAuthenticated: (state) => !!state.user.name,
+    isHaveToken: (state) => !!state.token,
     authStatus: (state) => state.status
   },
   mutations: {
     // update User info
     UPDATE_USER_INFO: (state, { user }) => {
-      return (state.user.name = user.name);
+      return (state.user = user);
     },
     // update LeftBar status
     UPDATE_TOKEN: (state, { token }) => {
@@ -48,6 +47,14 @@ export default {
         }
       } catch (error) {
         return false;
+      }
+    },
+    validateToken: async ({ commit }) => {
+      try {
+        let response = await axios.get("http://localhost:30001/users/me");
+        commit("UPDATE_USER_INFO", response.data);
+      } catch (error) {
+        return error;
       }
     }
     // REFRESH_TOKEN: () => {
