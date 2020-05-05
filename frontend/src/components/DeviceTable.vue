@@ -1,41 +1,43 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Type</th>
-          <th class="text-left">Calories</th>
-          <th class="text-left">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in desserts" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.type }}</td>
-          <td>{{ item.calories }}</td>
+  <v-card :elevation="10">
+    <v-simple-table>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Type</th>
+            <th class="text-left">Calories</th>
+            <th class="text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in desserts" :key="item.name">
+            <td>{{ item.name }}</td>
+            <td>{{ item.type }}</td>
+            <td>{{ item.calories }}</td>
 
-          <!-- Status of device -->
-          <td v-if="item.status==1">
-            <v-chip
-              class="ma-2 chip-width"
-              v-on:click="turnOnOff(item.status)"
-              color="green"
-              text-color="white"
-            >Active</v-chip>
-          </td>
-          <td v-if="item.status==2">
-            <v-chip
-              class="ma-2 chip-width"
-              v-on:click="turnOnOff(item.status)"
-              color="red"
-              text-color="white"
-            >Stop</v-chip>
-          </td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+            <!-- Status of device -->
+            <td v-if="item.status==1">
+              <v-chip
+                class="ma-2 chip-width"
+                v-on:click="turnOnOff(item.status)"
+                color="green"
+                text-color="white"
+              >Active</v-chip>
+            </td>
+            <td v-if="item.status==2">
+              <v-chip
+                class="ma-2 chip-width"
+                v-on:click="turnOnOff(item.status)"
+                color="red"
+                text-color="white"
+              >Stop</v-chip>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-card>
 </template>
 
 <script>
