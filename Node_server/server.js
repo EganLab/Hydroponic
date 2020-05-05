@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var port = process.env.PORT || 30001;
+var port = process.env.PORT || 3000;
 
 var cors = require('cors');
 var helmet = require('helmet');
@@ -9,18 +9,32 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
-var routes = require('./routes/index');
+var users = require('./routes/users');
+var devices = require('./routes/devices');
+var trackings = require('./routes/trackings');
 
 var configDB = require('./config/database.js');
 
 // configuration ===============================================================
-mongoose.connect(configDB.url, { useUnifiedTopology: true, useNewUrlParser: true }, error => {
-  if (error) console.log(error);
-  else console.log('Connect successfully');
-});
-mongoose.set('useCreateIndex', true);
+const connectDB = async () => {
+  await mongoose.connect(
+    configDB.url,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    },
+    error => {
+      if (error) console.log('error :', error);
+      else console.log('Connect successfully');
+    }
+  );
+  mongoose.set('useCreateIndex', true);
+};
 
-// show log
+connectDB().catch(error => console.error(error));
+
+// config log + security =========================================================
 app.use(logger('dev'));
 
 app.use(bodyParser.json());
@@ -47,8 +61,13 @@ app.use(
 );
 
 // routes ======================================================================
-app.use('/', routes);
+app.use('/', users);
+app.use('/devices', devices);
+app.use('/trackings', trackings);
 
 // launch ======================================================================
-app.listen(port);
+var server = app.listen(3000);
+app.io = require('socket.io')(server);
+require('./routes/events')(app.io);
+
 console.log('The magic happens on port ' + port);

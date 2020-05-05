@@ -1,3 +1,3 @@
 module.exports = {
-  url: 'mongodb://mongo:27017/hydroponic'
+  url: 'mongodb://mongo1:27017,mongo2:27017,mongo3:27017/' + 'hydroponic?replicaSet=rs0'
 };
