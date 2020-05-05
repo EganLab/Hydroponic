@@ -23,7 +23,7 @@ export default {
   actions: {
     login: async ({ commit }, payload) => {
       try {
-        let response = await axios.post("http://localhost:30001/users/login", payload);
+        let response = await axios.post("http://localhost:3000/users/login", payload);
         if (response.status === 200) {
           // store user token
           localStorage.setItem("user-token", response.data.token);
@@ -39,7 +39,7 @@ export default {
     },
     register: async ({ commit }, payload) => {
       try {
-        let response = await axios.post("http://localhost:30001/users", payload);
+        let response = await axios.post("http://localhost:3000/users", payload);
         if (response.status === 200) {
           commit("UPDATE_TOKEN", response.data);
           commit("UPDATE_USER_INFO", response.data);
@@ -51,7 +51,7 @@ export default {
     },
     validateToken: async ({ commit }) => {
       try {
-        let response = await axios.get("http://localhost:30001/users/me");
+        let response = await axios.get("http://localhost:3000/users/me");
         commit("UPDATE_USER_INFO", response.data);
       } catch (error) {
         return error;
@@ -59,7 +59,7 @@ export default {
     },
     logout: async ({ commit }) => {
       try {
-        let response = await axios.post("http://localhost:30001/users/me/logout");
+        let response = await axios.post("http://localhost:3000/users/me/logout");
         if (response.success) {
           // remove token in localStorage
           console.log(response);
@@ -78,7 +78,7 @@ export default {
     },
     logoutAll: async ({ commit }) => {
       try {
-        let response = await axios.get("http://localhost:30001/users/me/logoutall");
+        let response = await axios.get("http://localhost:3000/users/me/logoutall");
         if (response.success) {
           // remove token in localStorage
           localStorage.removeItem("user-token");
