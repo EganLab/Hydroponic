@@ -2,43 +2,97 @@ version: '3'
 
 services:
   node_server:
-    build: ./Node_server
+    hostname: node_server
     container_name: node_server
-    restart: unless-stopped
+    build: ./Node_server
     working_dir: /usr/src/app
     volumes:
       - ./Node_server:/usr/src/app
+    expose:
+      - 3000
     ports:
-      - '30001:30001'
+      - '3000:3000'
     depends_on:
-      - mongo
+      - mongo1
+      - mongo2
+      - mongo3
     networks:
       - app-network
+    restart: always
     command: 'yarn start'
 
-  mongo:
-    image: mongo
-    restart: unless-stopped
-    ports:
-      - 27017:27017
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
-    volumes:
-      - ./Node_server/user_data:/data/db
-    networks:
-      - app-network
-
   vue_frontend:
+    hostname: vue_frontend
     image: 'node:10-alpine'
-    container_name: vue-frontend
-    restart: unless-stopped
+    container_name: vue_frontend
+    restart: always
     working_dir: /app
     volumes:
       - ./frontend:/app
+    depends_on:
+      - node_server
     ports:
       - '8080:8080'
+    networks:
+      - app-network
     command: 'yarn serve'
+
+  mongo1:
+    hostname: mongo1
+    container_name: mongo1
+    image: mongo
+    volumes:
+      - ./data/data1/db:/data/db
+      - ./data/data1/configdb:/data/configdb
+    networks:
+      - app-network
+    expose:
+      - 27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+    ports:
+      - 30001:27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'devrs']
+
+  mongo2:
+    hostname: mongo2
+    container_name: mongo2
+    image: mongo
+    volumes:
+      - ./data/data2/db:/data/db
+      - ./data/data2/configdb:/data/configdb
+    networks:
+      - app-network
+    expose:
+      - 27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+    ports:
+      - 30002:27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'devrs']
+
+  mongo3:
+    hostname: mongo3
+    container_name: mongo3
+    image: mongo
+    volumes:
+      - ./data/data3/db:/data/db
+      - ./data/data3/configdb:/data/configdb
+    networks:
+      - app-network
+    expose:
+      - 27017
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+    ports:
+      - 30003:27017
+    restart: always
+    entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'devrs']
 
 networks:
   app-network:
