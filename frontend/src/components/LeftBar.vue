@@ -36,7 +36,7 @@ export default {
     items: [
       { icon: "mdi-contacts", text: "Contacts", link: "/" },
       { icon: "mdi-history", text: "Tracking", link: "/tracking" },
-      { icon: "mdi-content-copy", text: "Device", link: "/about" }
+      { icon: "mdi-content-copy", text: "Device", link: "/device" }
     ]
   })
 };

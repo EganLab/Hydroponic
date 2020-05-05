@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
 import Tracking from "../views/Tracking.vue";
+import Device from "../views/Device.vue";
 import store from "../store";
 
 Vue.use(VueRouter);
@@ -35,6 +36,12 @@ const routes = [
     path: "/tracking",
     name: "Tracking",
     component: Tracking,
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/device",
+    name: "Device",
+    component: Device,
     beforeEnter: ifAuthenticated
   },
   {

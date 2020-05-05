@@ -56,7 +56,7 @@ export default {
           name: this.name
         };
         axios
-          .post("http://localhost:3000/update", name)
+          .post("http://localhost:3000/devices/add", name)
           .then((res) => {
             console.log("res", res);
           })
