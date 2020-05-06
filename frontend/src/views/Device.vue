@@ -8,7 +8,8 @@
           </div>
 
           <div class="my-2">
-            <v-btn>By Form</v-btn>
+            <!-- Dialog Form -->
+            <AddDeviceForm />
           </div>
           <div class="my-2">
             <v-btn color="primary">By QR code</v-btn>
@@ -23,11 +24,13 @@
 
 <script>
 import DeviceTable from "@/components/DeviceTable.vue";
+import AddDeviceForm from "@/components/AddDeviceForm.vue";
 
 export default {
   name: "Device",
   components: {
-    DeviceTable
+    DeviceTable,
+    AddDeviceForm
   }
 };
 </script>
