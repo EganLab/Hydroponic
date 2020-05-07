@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "../../router";
 
 export default {
   state: {
@@ -29,6 +30,8 @@ export default {
           localStorage.setItem("user-token", response.data.token);
           commit("UPDATE_TOKEN", response.data);
           commit("UPDATE_USER_INFO", response.data);
+          axios.defaults.headers.common["Authorization"] = response.data.token;
+          router.push("/home");
           return true;
         } else return false;
       } catch (error) {
@@ -53,16 +56,17 @@ export default {
       try {
         let response = await axios.get("http://localhost:3000/users/me");
         commit("UPDATE_USER_INFO", response.data);
+        return true;
       } catch (error) {
-        return error;
+        console.log("validateToken", error);
+        return false;
       }
     },
     logout: async ({ commit }) => {
       try {
         let response = await axios.post("http://localhost:3000/users/me/logout");
-        if (response.success) {
+        if (response.data.success) {
           // remove token in localStorage
-          console.log(response);
           localStorage.removeItem("user-token");
           // Reset state
           let data = {
@@ -71,6 +75,7 @@ export default {
           };
           commit("UPDATE_USER_INFO", data);
           commit("UPDATE_TOKEN", data);
+          router.push("/");
         }
       } catch (error) {
         return error;
@@ -78,8 +83,8 @@ export default {
     },
     logoutAll: async ({ commit }) => {
       try {
-        let response = await axios.get("http://localhost:3000/users/me/logoutall");
-        if (response.success) {
+        let response = await axios.post("http://localhost:3000/users/me/logoutall");
+        if (response.data.success) {
           // remove token in localStorage
           localStorage.removeItem("user-token");
           // Reset state
@@ -89,9 +94,12 @@ export default {
           };
           commit("UPDATE_USER_INFO", data);
           commit("UPDATE_TOKEN", data);
+          router.push("/");
+          return true;
         }
       } catch (error) {
-        return error;
+        console.log(error);
+        return false;
       }
     }
   }

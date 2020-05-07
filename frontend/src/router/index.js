@@ -5,44 +5,57 @@ import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
 import Tracking from "../views/Tracking.vue";
 import Device from "../views/Device.vue";
+import Welcome from "../views/Welcome.vue";
 import store from "../store";
 
 Vue.use(VueRouter);
 
 const ifNotAuthenticated = (to, from, next) => {
-  if (!store.getters.isAuthenticated) {
-    next();
-    return;
-  }
-  next("/");
+  if (store.getters.isHaveToken) {
+    store.dispatch("validateToken").then(() => {
+      if (store.getters.isAuthenticated) {
+        next();
+        return;
+      } else next("/");
+    });
+  } else next("/");
 };
 
-const ifAuthenticated = (to, from, next) => {
-  if (store.getters.isAuthenticated) {
-    next();
-    return;
-  }
-  next("/login");
+const ifAuthenticated = async (to, from, next) => {
+  if (store.getters.isHaveToken) {
+    store.dispatch("validateToken").then(() => {
+      if (!store.getters.isAuthenticated) {
+        next();
+        return;
+      } else next("/home");
+    });
+  } else next();
 };
 
 const routes = [
   {
     path: "/",
+    name: "Welcome",
+    component: Welcome,
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: "/home",
     name: "Home",
     component: Home,
-    beforeEnter: ifAuthenticated
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: "/tracking",
     name: "Tracking",
     component: Tracking,
-    beforeEnter: ifAuthenticated
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: "/device",
     name: "Device",
     component: Device,
-    beforeEnter: ifAuthenticated
+    beforeEnter: ifNotAuthenticated
   },
   {
     path: "/about",
@@ -52,14 +65,14 @@ const routes = [
   {
     path: "/login",
     name: "Login",
-    component: Login,
-    beforeEnter: ifNotAuthenticated
+    component: Login
+    // beforeEnter: ifNotAuthenticated
   },
   {
     path: "/signup",
     name: "Signup",
-    component: Signup,
-    beforeEnter: ifNotAuthenticated
+    component: Signup
+    // beforeEnter: ifNotAuthenticated
   }
 ];
 
