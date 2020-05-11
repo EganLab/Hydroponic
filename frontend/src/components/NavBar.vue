@@ -33,7 +33,7 @@
         <v-list-item @click="profile">
           <v-list-item-title>
             Hello
-            <strong>{{getUserInfo.name}}</strong>
+            <strong>{{ getUserInfo.name }}</strong>
           </v-list-item-title>
         </v-list-item>
         <v-list-item @click="this.logout">

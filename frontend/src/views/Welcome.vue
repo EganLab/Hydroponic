@@ -16,7 +16,7 @@
         <v-col class="bt-area" cols="9">
           <v-row>
             <v-col>
-              <v-btn :to="{name:'Login'}">Sign Up - It's Free</v-btn>
+              <v-btn :to="{ name: 'Login' }">Sign Up - It's Free</v-btn>
             </v-col>
             <v-col>
               <v-btn color="success">Watch Our Garden</v-btn>

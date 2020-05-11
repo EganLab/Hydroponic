@@ -4,6 +4,9 @@
       <LeftBar />
       <NavBar />
     </div>
+    <div v-show="!isAuthenticated">
+      <NavWelcome />
+    </div>
 
     <v-content>
       <v-container class="fill-height" fluid>
@@ -16,6 +19,7 @@
 <script>
 import NavBar from "./components/NavBar";
 import LeftBar from "./components/LeftBar";
+import NavWelcome from "./components/NavWelcome";
 
 import { mapGetters } from "vuex";
 
@@ -24,7 +28,8 @@ export default {
 
   components: {
     NavBar,
-    LeftBar
+    LeftBar,
+    NavWelcome
   },
   computed: {
     ...mapGetters(["isAuthenticated"])

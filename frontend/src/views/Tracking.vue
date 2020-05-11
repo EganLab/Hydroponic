@@ -5,13 +5,13 @@
       <Sensors
         name="Humidity"
         icon="mdi-water"
-        v-bind:gradient="['#89f7fe','#66a6ff']"
+        v-bind:gradient="['#89f7fe', '#66a6ff']"
         unit="% RH"
       />
       <Sensors
         name="Temperature"
         icon="mdi-temperature-celsius"
-        v-bind:gradient="['#fad0c4','#ff9a9e']"
+        v-bind:gradient="['#fad0c4', '#ff9a9e']"
         unit="°C"
       />
     </v-row>

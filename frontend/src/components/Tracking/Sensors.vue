@@ -1,12 +1,12 @@
 <template>
   <v-card class="mx-auto" color="grey lighten-4" max-width="600">
     <v-card-title>
-      <v-icon :color="gradient[1]" class="mr-12" size="64" @click="takePulse">{{icon}}</v-icon>
+      <v-icon :color="gradient[1]" class="mr-12" size="64" @click="takePulse">{{ icon }}</v-icon>
       <v-row align="start">
-        <div class="caption grey--text text-uppercase">{{name}}</div>
+        <div class="caption grey--text text-uppercase">{{ name }}</div>
         <div>
           <span class="display-2 font-weight-black" v-text="avg || '—'"></span>
-          <strong v-if="avg">{{unit}}</strong>
+          <strong v-if="avg">{{ unit }}</strong>
         </div>
       </v-row>
 

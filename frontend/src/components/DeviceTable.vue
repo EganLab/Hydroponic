@@ -17,21 +17,23 @@
             <td>{{ item.calories }}</td>
 
             <!-- Status of device -->
-            <td v-if="item.status==1">
+            <td v-if="item.status == 1">
               <v-chip
                 class="ma-2 chip-width"
                 v-on:click="turnOnOff(item.status)"
                 color="green"
                 text-color="white"
-              >Active</v-chip>
+                >Active</v-chip
+              >
             </td>
-            <td v-if="item.status==2">
+            <td v-if="item.status == 2">
               <v-chip
                 class="ma-2 chip-width"
                 v-on:click="turnOnOff(item.status)"
                 color="red"
                 text-color="white"
-              >Stop</v-chip>
+                >Stop</v-chip
+              >
             </td>
           </tr>
         </tbody>

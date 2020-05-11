@@ -3,7 +3,7 @@
     <v-card-title>
       <!-- <v-icon :color="gradient[1]" class="mr-12" size="64" @click="takePulse">{{icon}}</v-icon> -->
       <v-row align="start">
-        <div class="caption grey--text text-uppercase">{{name}}</div>
+        <div class="caption grey--text text-uppercase">{{ name }}</div>
       </v-row>
 
       <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
       </v-btn>
     </v-card-title>
 
-    <div v-show="name=='Pump'">
+    <div v-show="name == 'Pump'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img :src="require('../../assets/pump.png')" class="my-3 small-image-size" contain />
@@ -21,13 +21,13 @@
         <div class="d-flex align-content-center flex-wrap">
           <div>
             <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{status}}</strong>
+            <strong>{{ status }}</strong>
           </div>
         </div>
       </v-row>
     </div>
 
-    <div v-show="name=='Fertiliser'">
+    <div v-show="name == 'Fertiliser'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img
@@ -39,13 +39,13 @@
         <div class="d-flex align-content-center flex-wrap">
           <div>
             <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{status}}</strong>
+            <strong>{{ status }}</strong>
           </div>
         </div>
       </v-row>
     </div>
 
-    <div v-show="name=='Water Tank'">
+    <div v-show="name == 'Water Tank'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img :src="require('../../assets/tank.png')" class="my-3 large-image-size" contain />
@@ -53,13 +53,18 @@
         <div class="d-flex align-content-center flex-wrap">
           <div>
             <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{status}}</strong>
+            <strong>{{ status }}</strong>
           </div>
         </div>
       </v-row>
       <v-sheet color="transparent">
         <div class="tank-limit">
-          <v-progress-linear value="50" :height="'8px'" color="light-blue" :rounded="true"></v-progress-linear>
+          <v-progress-linear
+            value="50"
+            :height="'8px'"
+            color="light-blue"
+            :rounded="true"
+          ></v-progress-linear>
         </div>
       </v-sheet>
     </div>

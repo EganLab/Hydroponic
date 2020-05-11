@@ -14,35 +14,34 @@
         <br />
 
         <h3>
-          HYDROPONICS, GROWING PLANTS IN A NUTRIENT SOLUTION ROOT
-          MEDIUM, IS A GROWING AREA OF COMMERCIAL FOOD PRODUCTION.
+          HYDROPONICS, GROWING PLANTS IN A NUTRIENT SOLUTION ROOT MEDIUM, IS A GROWING AREA OF
+          COMMERCIAL FOOD PRODUCTION.
         </h3>
         <br />
         <hr />
         <br />
         <p>
-          The word hydroponics is derived from two Greek words: ‚hydro‘ meaning water
-          and ‚ponos‘ meaning labor. Hydroponic production can be with or without the
-          use of an artificial medium (such as perlite, sand, gravel, peat, or sawdust)
-          to provide mechanical support.
+          The word hydroponics is derived from two Greek words: ‚hydro‘ meaning water and ‚ponos‘
+          meaning labor. Hydroponic production can be with or without the use of an artificial
+          medium (such as perlite, sand, gravel, peat, or sawdust) to provide mechanical support.
         </p>
         <br />
         <p>
-          If you have ever suspended the pit from an avocado over water in a glass, or
-          grown a sweet potato plant in water as part of a classroom experiment, you were
-          using an elementary hydroponic system!
+          If you have ever suspended the pit from an avocado over water in a glass, or grown a sweet
+          potato plant in water as part of a classroom experiment, you were using an elementary
+          hydroponic system!
         </p>
         <br />
         <p>
-          Although you may have only used water, a true hydroponics garden combines
-          the use of water, a substrate, and a nutrient solution to grow plants quickly
-          in far less space than a traditional garden.
+          Although you may have only used water, a true hydroponics garden combines the use of
+          water, a substrate, and a nutrient solution to grow plants quickly in far less space than
+          a traditional garden.
         </p>
         <br />
         <p>
-          The majority of hydroponic gardens are used to grow vegetables. However,
-          this gardening method is also a great solution for creating unique flower gardens
-          indoors or outdoors using a variety of container options.
+          The majority of hydroponic gardens are used to grow vegetables. However, this gardening
+          method is also a great solution for creating unique flower gardens indoors or outdoors
+          using a variety of container options.
         </p>
       </v-col>
     </v-row>
