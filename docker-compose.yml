@@ -1,13 +1,13 @@
 version: '3'
 
 services:
-  node_server:
-    hostname: node_server
-    container_name: node_server
-    build: ./Node_server
+  backend:
+    hostname: backend
+    container_name: backend
+    build: ./backend
     working_dir: /usr/src/app
     volumes:
-      - ./Node_server:/usr/src/app
+      - ./backend:/usr/src/app
     expose:
       - 3000
     ports:
@@ -30,7 +30,7 @@ services:
     volumes:
       - ./frontend:/app
     depends_on:
-      - node_server
+      - backend
     ports:
       - '8080:8080'
     networks:
@@ -93,6 +93,21 @@ services:
       - 30003:27017
     restart: always
     entrypoint: ['/usr/bin/mongod', '--bind_ip_all', '--replSet', 'devrs']
+
+  rabbitmq3:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'secret-cookie-here'
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+      - 8000:15672
+      - 25676:25676
+    networks:
+      - app-network
 
 networks:
   app-network:
