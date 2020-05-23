@@ -61,7 +61,7 @@ app.use(
 );
 
 // routes ======================================================================
-app.use('/', users);
+app.use('/users', users);
 app.use('/devices', devices);
 app.use('/trackings', trackings);
 

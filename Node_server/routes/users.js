@@ -2,7 +2,7 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 
-router.post('/users', async (req, res) => {
+router.post('/', async (req, res) => {
   // Create a new user
   try {
     const user = new User(req.body);
@@ -21,7 +21,7 @@ router.post('/users', async (req, res) => {
   }
 });
 
-router.post('/users/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   //Login a registered user
   try {
     const { email, password } = req.body;
@@ -45,18 +45,20 @@ router.post('/users/login', async (req, res) => {
   }
 });
 
-router.get('/users/me', auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   // View logged in user profile
+  // TODO what happen if not validate token
+  const user = {
+    _id: req.user._id,
+    email: req.user.email,
+    name: req.user.name
+  };
   res.json({
-    user: {
-      _id: req.user._id,
-      email: req.user.email,
-      name: req.user.name
-    }
+    user
   });
 });
 
-router.post('/users/me/logout', auth, async (req, res) => {
+router.post('/me/logout', auth, async (req, res) => {
   // Log user out of the application
   try {
     req.user.tokens = req.user.tokens.filter(token => {
@@ -72,7 +74,7 @@ router.post('/users/me/logout', auth, async (req, res) => {
   }
 });
 
-router.post('/users/me/logoutall', auth, async (req, res) => {
+router.post('/me/logoutall', auth, async (req, res) => {
   // Log user out of all devices
   try {
     req.user.tokens.splice(0, req.user.tokens.length);
