@@ -3,6 +3,8 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
+import Farm from "../views/Farm.vue";
+import Staff from "../views/Staff.vue";
 import Tracking from "../views/Tracking.vue";
 import Device from "../views/Device.vue";
 import Welcome from "../views/Welcome.vue";
@@ -43,6 +45,18 @@ const routes = [
     path: "/home",
     name: "Home",
     component: Home,
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: "/farm",
+    name: "Farm",
+    component: Farm,
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: "/staff",
+    name: "Staff",
+    component: Staff,
     beforeEnter: ifNotAuthenticated
   },
   {
