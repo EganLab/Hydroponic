@@ -136,3 +136,70 @@ The tokens is saved as an array because the user who logs on in a new device wil
   "msg": "logout all device successfully"
 }
 ```
+
+#### POST /users/createStaff
+
+**Input**
+`header`
+
+```json
+[
+  {
+    "key": "Authorization",
+    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2NjJkN2UyNGZkNDAyY2MwZDMzZTAiLCJpYXQiOjE1Nzk1NzQwNTJ9.rFAikyNlWL_e79DnXOGv2q5XNZ6paRfPc_-9YsgTIKc",
+    "description": ""
+  }
+]
+```
+
+`body`
+
+```json
+[
+  { "key": "email", "value": "testkong1@gmail.com", "description": "" },
+  { "key": "password", "value": "123456", "description": "" },
+  { "key": "name", "value": "do hoang", "description": "" },
+  {
+    "key": "dateOfBirth",
+    "value": "Mon May 25 2020 22:27:50 GMT+0700 (Indochina Time)",
+    "description": ""
+  },
+  { "key": "role", "value": "2", "description": "" },
+  { "key": "farms", "value": "", "description": "" }
+]
+```
+
+**Output**
+
+```json
+{
+  "success": true,
+  "message": "Create staff successfully"
+}
+```
+
+#### GET /users/staff/:id
+
+**Input**
+
+```json
+[
+  {
+    "key": "Authorization",
+    "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTI2NjJkN2UyNGZkNDAyY2MwZDMzZTAiLCJpYXQiOjE1Nzk1NzQwNTJ9.rFAikyNlWL_e79DnXOGv2q5XNZ6paRfPc_-9YsgTIKc",
+    "description": ""
+  }
+]
+```
+
+**Output**
+
+```json
+{
+  "_id": "5ecbedc9cb0a7c02ec9dd117",
+  "email": "testkong1@gmail.com",
+  "name": "do hoang",
+  "dateOfBirth": "2020-05-25T15:27:50.000Z",
+  "farm": []
+}
+```

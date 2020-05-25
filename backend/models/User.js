@@ -34,7 +34,29 @@ const UserSchema = new Schema({
       }
     }
   ],
-  oauthType: Number,
+  supervisor: {
+    type: String
+  },
+  staffs: [
+    {
+      staff: {
+        type: String
+      },
+      name: {
+        type: String
+      }
+    }
+  ],
+  farms: [
+    {
+      farm: {
+        type: String
+      }
+    }
+  ],
+  dateOfBirth: {
+    type: Date
+  },
   role: Number
 });
 
