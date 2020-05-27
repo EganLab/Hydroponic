@@ -18,6 +18,7 @@ export default {
     },
     // update LeftBar status
     UPDATE_TOKEN: (state, { token }) => {
+      axios.defaults.headers.common["Authorization"] = token;
       return (state.token = token);
     }
   },
@@ -30,7 +31,6 @@ export default {
           localStorage.setItem("user-token", response.data.token);
           commit("UPDATE_TOKEN", response.data);
           commit("UPDATE_USER_INFO", response.data);
-          axios.defaults.headers.common["Authorization"] = response.data.token;
           router.push("/home");
           return true;
         } else return false;
@@ -44,6 +44,7 @@ export default {
       try {
         let response = await axios.post("http://localhost:3000/users", payload);
         if (response.status === 200) {
+          localStorage.setItem("user-token", response.data.token);
           commit("UPDATE_TOKEN", response.data);
           commit("UPDATE_USER_INFO", response.data);
           return true;

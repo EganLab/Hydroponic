@@ -8,9 +8,11 @@
           </v-toolbar>
           <v-card-text>
             <v-form>
-              <v-alert :value="userExists" color="error" icon="warning"
-                >This user already exists, try a different set of data.</v-alert
-              >
+              <v-alert
+                :value="userExists"
+                color="error"
+                icon="warning"
+              >This user already exists, try a different set of data.</v-alert>
 
               <v-text-field
                 prepend-icon="person"
@@ -74,6 +76,7 @@ export default {
     email: "",
     password: "",
     confirm_password: "",
+    role: 1,
     rules: {
       required: (value) => !!value || "Required",
       email: (value) => {
@@ -88,9 +91,10 @@ export default {
       this.register({
         email: this.email,
         password: this.password,
-        name: this.name
+        name: this.name,
+        role: this.role
       }).then((success) => {
-        if (success) this.$router.push("/");
+        if (success) this.$router.push("/home");
         else this.userExists = true;
       });
     },
