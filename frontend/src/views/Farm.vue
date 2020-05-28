@@ -2,7 +2,9 @@
   <v-row>
     <!-- {{console.log(getFarmLabel)}} -->
     <v-card v-for="farm in getFarmLabel" :key="farm._id" :class="`d-flex ma-6`">
-      <CardInfo v-bind:data="farm" />
+      <v-card @click="openFarmDetail(farm._id)">
+        <CardInfo v-bind:data="farm" />
+      </v-card>
     </v-card>
     <AddFarmForm />
   </v-row>
@@ -20,28 +22,19 @@ export default {
     CardInfo,
     AddFarmForm
   },
-  data: () => ({
-    farms: [
-      {
-        id: 1,
-        name: "Start",
-        image: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
-        location: "Ha noi"
-      },
-      {
-        id: 2,
-        name: "end",
-        image: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg",
-        location: "Ha noi"
-      }
-    ]
-  }),
+  data: () => ({}),
   created() {
     this.$store.dispatch("getLabel");
   },
   computed: {
     ...mapGetters(["getFarmLabel"]),
     console: () => console
+  },
+  methods: {
+    // Open farm detail
+    async openFarmDetail(_id) {
+      this.$router.push("/farm/" + _id);
+    }
   }
 };
 </script>

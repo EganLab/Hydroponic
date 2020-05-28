@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import Signup from "../views/Signup.vue";
 import Farm from "../views/Farm.vue";
+import FarmDetail from "../views/FarmDetail.vue";
 import Staff from "../views/Staff.vue";
 import Tracking from "../views/Tracking.vue";
 import Device from "../views/Device.vue";
@@ -51,6 +52,12 @@ const routes = [
     path: "/farm",
     name: "Farm",
     component: Farm,
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: "/farm/:id",
+    name: "FarmDetail",
+    component: FarmDetail,
     beforeEnter: ifNotAuthenticated
   },
   {
