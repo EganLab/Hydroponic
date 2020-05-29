@@ -51,11 +51,26 @@ const UserSchema = new Schema({
     {
       farm: {
         type: String
+      },
+      name: {
+        type: String,
+        trim: true
+      },
+      image: {
+        type: String,
+        trim: true
       }
     }
   ],
+  avatar: {
+    type: String,
+    trim: true
+  },
   dateOfBirth: {
     type: Date
+  },
+  location: {
+    type: String
   },
   role: Number
 });

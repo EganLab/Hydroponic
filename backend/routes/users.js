@@ -138,7 +138,7 @@ router.get('/staff/:id', auth, async (req, res) => {
     } else {
       res.status(400).json({
         success: false,
-        message: 'You do not have permission to get staff info'
+        message: 'You do not have permission to get staff info or do not have this staff'
       });
     }
   } else {
