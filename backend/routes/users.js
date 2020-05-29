@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const Farm = require('../models/Farm');
 
 router.post('/', async (req, res) => {
-  // Create a new admin
   try {
     const user = new User(req.body);
     await user.save();
@@ -95,14 +95,21 @@ router.post('/me/logoutall', auth, async (req, res) => {
 
 router.post('/createStaff', auth, async (req, res) => {
   // Create a Staff
+
   if (req.user.role === 1) {
     try {
+      // TODO check already exit
       let staff = new User(req.body);
       staff.supervisor = req.user._id;
       let staffData = await staff.save();
+      const staffLabel = { _id: staffData._id, name: staffData.name, image: staffData.image };
 
-      req.user.staffs.push({ _id: staffData._id, name: staffData.name, image: staffData.image });
+      req.user.staffs.push(staffLabel);
       await req.user.save();
+
+      let farmInfo = await Farm.findById({ _id: req.body.farmId });
+      farmInfo.staffs.push(staffLabel);
+      await farmInfo.save();
 
       res.status(201).json({
         success: true,

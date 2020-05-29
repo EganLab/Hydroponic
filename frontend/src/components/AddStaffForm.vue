@@ -116,7 +116,7 @@ export default {
         role: 2,
         phonenumber: this.phonenumber,
         image: this.image,
-        farm: this.farm
+        farmId: this.farm
       };
       //  Create new staff
       try {
@@ -124,11 +124,20 @@ export default {
         if (response.status === 201) {
           // create successfully
           this.$store.dispatch("validateToken");
+          this.resetParameter();
           return true;
         } else return false;
       } catch (error) {
         return false;
       }
+    },
+    resetParameter() {
+      this.name = "";
+      this.email = "";
+      this.password = "";
+      this.dateOfBirth = "";
+      this.phonenumber = "";
+      this.farmId = "";
     }
   }
 };
