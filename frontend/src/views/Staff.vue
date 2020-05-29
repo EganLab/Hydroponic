@@ -1,9 +1,11 @@
 <template>
   <v-row>
-    <v-card v-for="staff in staffs" :key="staff.id" :class="`d-flex ma-6`">
-      <CardInfo v-bind:data="staff" />
+    <v-card v-for="staff in getStaffsLabel" :key="staff._id" :class="`d-flex ma-6`">
+      <v-card @click="openUserDetail(staff._id)">
+        <CardInfo v-bind:data="staff" />
+      </v-card>
     </v-card>
-    <AddStaffForm v-if="staffs.length>0" />
+    <AddStaffForm />
   </v-row>
 </template>
 
@@ -11,6 +13,7 @@
 // @ is an alias to /src
 import CardInfo from "@/components/CardInfo.vue";
 import AddStaffForm from "@/components/AddStaffForm.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Staff",
@@ -18,28 +21,15 @@ export default {
     CardInfo,
     AddStaffForm
   },
-  data: () => ({
-    staffs: [
-      {
-        id: 1,
-        name: "Marcus",
-        image: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
-        location: "Ha noi"
-      },
-      {
-        id: 2,
-        name: "Tom",
-        image: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
-        location: "Ha noi"
-      }
-    ]
-  }),
+  data: () => ({}),
   computed: {
+    ...mapGetters(["getStaffsLabel"]),
     console: () => console
   },
   methods: {
-    createStaff: function() {
-      console.log("aaaa");
+    // Open farm detail
+    async openUserDetail(_id) {
+      this.$router.push("/staff/" + _id);
     }
   }
 };

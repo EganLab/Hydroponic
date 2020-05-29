@@ -6,6 +6,7 @@ import Signup from "../views/Signup.vue";
 import Farm from "../views/Farm.vue";
 import FarmDetail from "../views/FarmDetail.vue";
 import Staff from "../views/Staff.vue";
+import StaffDetail from "../views/StaffDetail.vue";
 import Tracking from "../views/Tracking.vue";
 import Device from "../views/Device.vue";
 import Welcome from "../views/Welcome.vue";
@@ -64,6 +65,12 @@ const routes = [
     path: "/staff",
     name: "Staff",
     component: Staff,
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: "/staff/:id",
+    name: "StaffDetail",
+    component: StaffDetail,
     beforeEnter: ifNotAuthenticated
   },
   {

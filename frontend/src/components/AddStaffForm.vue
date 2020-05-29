@@ -13,13 +13,13 @@
         <v-container>
           <v-row>
             <v-col cols="12">
-              <v-text-field label="Legal Staff Name*" required></v-text-field>
+              <v-text-field v-model="name" label="Legal Staff Name*" required></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Email*" required></v-text-field>
+              <v-text-field v-model="email" label="Email*" required></v-text-field>
             </v-col>
             <v-col cols="12">
-              <v-text-field label="Password*" type="password" required></v-text-field>
+              <v-text-field v-model="password" label="Password*" type="password" required></v-text-field>
             </v-col>
 
             <v-col cols="24">
@@ -50,7 +50,7 @@
             </v-col>
 
             <v-col cols="12" sm="6">
-              <v-text-field label="Phone Number*" required></v-text-field>
+              <v-text-field v-model="phonenumber" label="Phone Number"></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -58,7 +58,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="onCreateStaff">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -66,21 +66,54 @@
 
 <script>
 import CardInfo from "@/components/CardInfo.vue";
+import axios from "axios";
 
 export default {
   name: "AddStaffForm",
   components: { CardInfo },
   data: () => ({
     dialog: false,
+    name: "",
+    email: "",
+    password: "",
+    date: new Date().toISOString().substr(0, 10),
+    phonenumber: "",
+    menu: false,
+    image: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
     newStaff: {
       id: "add new staff",
       name: "add new staff",
       image:
         "https://icons-for-free.com/iconfiles/png/512/circle+more+plus+icon-1320183136549593898.png",
       location: ""
-    },
-    date: new Date().toISOString().substr(0, 10),
-    menu: false
-  })
+    }
+  }),
+  methods: {
+    async onCreateStaff() {
+      this.dialog = false;
+      const payload = {
+        // TODO need validate data
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        dateOfBirth: this.date,
+        role: 2,
+        phonenumber: this.phonenumber,
+        image: this.image
+      };
+
+      //  Create new staff
+      try {
+        let response = await axios.post("http://localhost:3000/users/createStaff", payload);
+        if (response.status === 201) {
+          // create successfully
+          this.$store.dispatch("validateToken");
+          return true;
+        } else return false;
+      } catch (error) {
+        return false;
+      }
+    }
+  }
 };
 </script>

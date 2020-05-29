@@ -4,12 +4,14 @@ import router from "../../router";
 export default {
   state: {
     user: {},
-    token: localStorage.getItem("user-token") || ""
+    token: localStorage.getItem("user-token") || "",
+    staffLabel: []
   },
   getters: {
     isAuthenticated: (state) => !!state.user.name,
     isHaveToken: (state) => !!state.token,
-    getUserInfo: (state) => state.user
+    getUserInfo: (state) => state.user,
+    getStaffsLabel: (state) => state.staffLabel
   },
   mutations: {
     // update User info
@@ -20,6 +22,9 @@ export default {
     UPDATE_TOKEN: (state, { token }) => {
       axios.defaults.headers.common["Authorization"] = token;
       return (state.token = token);
+    },
+    UPDATE_STAFFSLABEL: (state, { staffs }) => {
+      return (state.staffLabel = staffs);
     }
   },
   actions: {
@@ -57,6 +62,8 @@ export default {
       try {
         let response = await axios.get("http://localhost:3000/users/me");
         commit("UPDATE_USER_INFO", response.data);
+        // update staff label
+        commit("UPDATE_STAFFSLABEL", response.data.user);
         return true;
       } catch (error) {
         console.log("validateToken", error);

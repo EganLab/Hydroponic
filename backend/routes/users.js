@@ -101,7 +101,7 @@ router.post('/createStaff', auth, async (req, res) => {
       staff.supervisor = req.user._id;
       let staffData = await staff.save();
 
-      req.user.staffs.push({ _id: staffData._id, name: staffData.name });
+      req.user.staffs.push({ _id: staffData._id, name: staffData.name, image: staffData.image });
       await req.user.save();
 
       res.status(201).json({

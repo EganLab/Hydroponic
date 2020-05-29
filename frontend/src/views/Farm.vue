@@ -5,7 +5,7 @@
         <CardInfo v-bind:data="farm" />
       </v-card>
     </v-card>
-    <AddFarmForm v-if="getFarmLabel.length>0" />
+    <AddFarmForm />
   </v-row>
 </template>
 

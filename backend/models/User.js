@@ -44,6 +44,10 @@ const UserSchema = new Schema({
       },
       name: {
         type: String
+      },
+      image: {
+        type: String,
+        trim: true
       }
     }
   ],
@@ -62,7 +66,7 @@ const UserSchema = new Schema({
       }
     }
   ],
-  avatar: {
+  image: {
     type: String,
     trim: true
   },
@@ -70,7 +74,12 @@ const UserSchema = new Schema({
     type: Date
   },
   location: {
-    type: String
+    type: String,
+    trim: true
+  },
+  phonenumber: {
+    type: String,
+    trim: true
   },
   role: Number
 });
