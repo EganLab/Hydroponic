@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var users = require('./routes/users');
 var devices = require('./routes/devices');
 var trackings = require('./routes/trackings');
+var farms = require('./routes/farms');
 
 var configDB = require('./config/database.js');
 
@@ -64,6 +65,7 @@ app.use(
 app.use('/users', users);
 app.use('/devices', devices);
 app.use('/trackings', trackings);
+app.use('/farms', farms);
 
 // launch ======================================================================
 var server = app.listen(3000);
