@@ -20,15 +20,6 @@ export default {
     }
   },
   actions: {
-    getLabel: async ({ commit }) => {
-      try {
-        let response = await axios.get("http://localhost:3000/users/me");
-        commit("UPDATE_FARMLABEL", response.data.user);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    },
     getFarmData: async ({ commit }, { _id }) => {
       try {
         let response = await axios.get("http://localhost:3000/farms/" + _id);

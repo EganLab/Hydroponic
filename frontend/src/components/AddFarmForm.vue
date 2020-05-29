@@ -77,7 +77,7 @@ export default {
         let response = await axios.post("http://localhost:3000/farms/create", payload);
         if (response.status === 201) {
           // create successfully
-          this.$store.dispatch("getLabel");
+          this.$store.dispatch("validateToken");
           return true;
         } else return false;
       } catch (error) {

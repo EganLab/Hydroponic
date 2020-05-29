@@ -52,6 +52,16 @@
             <v-col cols="12" sm="6">
               <v-text-field v-model="phonenumber" label="Phone Number"></v-text-field>
             </v-col>
+
+            <v-col cols="12">
+              <v-select
+                v-model="farm"
+                :items="getFarmLabel"
+                item-text="name"
+                item-value="_id"
+                label="Farm"
+              ></v-select>
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
@@ -66,6 +76,7 @@
 
 <script>
 import CardInfo from "@/components/CardInfo.vue";
+import { mapGetters } from "vuex";
 import axios from "axios";
 
 export default {
@@ -78,6 +89,7 @@ export default {
     password: "",
     date: new Date().toISOString().substr(0, 10),
     phonenumber: "",
+    farm: "",
     menu: false,
     image: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
     newStaff: {
@@ -88,6 +100,10 @@ export default {
       location: ""
     }
   }),
+  computed: {
+    ...mapGetters(["getFarmLabel"]),
+    console: () => console
+  },
   methods: {
     async onCreateStaff() {
       this.dialog = false;
@@ -99,9 +115,9 @@ export default {
         dateOfBirth: this.date,
         role: 2,
         phonenumber: this.phonenumber,
-        image: this.image
+        image: this.image,
+        farm: this.farm
       };
-
       //  Create new staff
       try {
         let response = await axios.post("http://localhost:3000/users/createStaff", payload);

@@ -23,11 +23,10 @@ export default {
   },
   data: () => ({}),
   created() {
-    this.$store.dispatch("getLabel");
+    this.$store.dispatch("validateToken");
   },
   computed: {
-    ...mapGetters(["getFarmLabel"]),
-    console: () => console
+    ...mapGetters(["getFarmLabel"])
   },
   methods: {
     // Open farm detail

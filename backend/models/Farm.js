@@ -36,6 +36,10 @@ const FarmSchema = new Schema({
       name: {
         type: String,
         trim: true
+      },
+      image: {
+        type: String,
+        trim: true
       }
     }
   ]
