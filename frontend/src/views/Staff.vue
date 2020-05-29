@@ -3,7 +3,7 @@
     <v-card v-for="staff in staffs" :key="staff.id" :class="`d-flex ma-6`">
       <CardInfo v-bind:data="staff" />
     </v-card>
-    <AddStaffForm />
+    <AddStaffForm v-if="staffs.length>0" />
   </v-row>
 </template>
 
