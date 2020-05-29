@@ -9,4 +9,4 @@ https://github.com/inovex/mqtt-stresser
 
 `docker-compose up`
 
-Server api: [API](https://github.com/hedspi-iot/Hydroponic/blob/master/Node_server/Readme.md)
+Server api: [API](https://github.com/hedspi-iot/Hydroponic/blob/master/backend/Readme.md)
