@@ -101,6 +101,7 @@ router.post('/createStaff', auth, async (req, res) => {
       // TODO check already exit
       let staff = new User(req.body);
       staff.supervisor = req.user._id;
+      staff.farms.push(req.body.farmId);
       let staffData = await staff.save();
       const staffLabel = { _id: staffData._id, name: staffData.name, image: staffData.image };
 
@@ -139,6 +140,8 @@ router.get('/staff/:id', auth, async (req, res) => {
         email: staffInfo.email,
         name: staffInfo.name,
         dateOfBirth: staffInfo.dateOfBirth,
+        phonenumber: staffInfo.phonenumber,
+        image: staffInfo.image,
         farms: staffInfo.farms
       };
       res.status(200).json(staff);

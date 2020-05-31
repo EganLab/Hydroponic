@@ -2,26 +2,22 @@
   <v-container fluid>
     <v-col cols="24">
       <v-card>
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-          max-height="225"
-          class="grey darken-4"
-        ></v-img>
+        <v-img v-bind:src="this.data.image" max-height="225" class="grey darken-4"></v-img>
       </v-card>
     </v-col>
     <v-col>
       <v-card class="pa-5">
-        <h2>Farm : {{this.name}}</h2>
+        <h2>Farm : {{this.data.name}}</h2>
         <v-col>
-          <p class="mb-0">Location : {{this.location}}</p>
+          <p class="mb-0">Location : {{this.data.location}}</p>
         </v-col>
         <v-col>
           <v-row>
             <v-col cols="6">
-              <p class="mb-0">Number of staffs: {{this.staffs.length}}</p>
+              <p v-if="this.data.staffs" class="mb-0">Number of staffs: {{this.data.staffs.length}}</p>
             </v-col>
             <v-col cols="6">
-              <p class="mb-0">Number of crops: {{this.crops.length}}</p>
+              <p v-if="this.data.crops" class="mb-0">Number of crops: {{this.data.crops.length}}</p>
             </v-col>
           </v-row>
         </v-col>
@@ -37,13 +33,11 @@
 
 <script>
 export default {
-  name: "Profile",
-  data: () => ({
-    name: "Apolo",
-    location: "Vinh Yen, Vinh Phuc",
-    staffs: [],
-    crops: []
-  }),
+  name: "FarmProfile",
+  data: () => ({}),
+  props: {
+    data: Object
+  },
   methods: {}
 };
 </script>

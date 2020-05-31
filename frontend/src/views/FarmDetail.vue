@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Profile />
+    <FarmProfile v-bind:data="getFarmDetail" />
     <StaffInFarm />
     <Crops />
   </div>
@@ -8,14 +8,14 @@
 
 <script>
 import { mapGetters } from "vuex";
-import Profile from "@/components/Profile.vue";
+import FarmProfile from "@/components/FarmProfile.vue";
 import StaffInFarm from "@/components/StaffInFarm.vue";
 import Crops from "@/components/Crops.vue";
 
 export default {
   name: "FarmDetail",
   components: {
-    Profile,
+    FarmProfile,
     StaffInFarm,
     Crops
   },
