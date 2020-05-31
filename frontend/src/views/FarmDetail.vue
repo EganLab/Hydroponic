@@ -1,7 +1,7 @@
 <template>
   <div>
     <FarmProfile v-bind:data="getFarmDetail" />
-    <StaffInFarm />
+    <StaffInFarm v-bind:data="getFarmDetail.staffs" />
     <Crops />
   </div>
 </template>
