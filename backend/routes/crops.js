@@ -38,4 +38,16 @@ router.post('/create/:id', auth, async (req, res) => {
   }
 });
 
+router.get('/:id', auth, async (req, res) => {
+  let cropId = req.params.id;
+  // TODO need more authorization
+  try {
+    const CropInfo = await Crop.findById({ _id: cropId });
+
+    res.status(200).json(CropInfo);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;
