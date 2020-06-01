@@ -1,11 +1,12 @@
 <template>
   <v-row>
+    <AddStaffForm />
+
     <v-card v-for="staff in getStaffsLabel" :key="staff._id" :class="`d-flex ma-6`">
       <v-card @click="openUserDetail(staff._id)">
         <CardInfo v-bind:data="staff" />
       </v-card>
     </v-card>
-    <AddStaffForm />
   </v-row>
 </template>
 

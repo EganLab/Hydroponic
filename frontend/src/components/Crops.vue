@@ -2,6 +2,7 @@
   <v-col>
     <h1 class="text--secondary">Crops</h1>
     <v-row>
+      <AddCropForm />
       <v-card
         v-for="crop in crops"
         :key="crop._id"
@@ -16,10 +17,11 @@
 
 <script>
 import CropsCard from "@/components/CropsCard.vue";
+import AddCropForm from "@/components/AddCropForm.vue";
 
 export default {
   name: "Crops",
-  components: { CropsCard },
+  components: { CropsCard, AddCropForm },
   data: () => ({
     crops: [
       {

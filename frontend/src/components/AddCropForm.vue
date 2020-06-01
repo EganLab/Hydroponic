@@ -1,13 +1,13 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" persistent>
     <template v-slot:activator="{ on }">
-      <v-card v-on="on" :class="`d-flex ma-6`">
-        <CardInfo v-bind:data="newStaff" />
+      <v-card v-on="on" :class="`d-flex ma-4`">
+        <CardInfo v-bind:data="newCrop" />
       </v-card>
     </template>
     <v-card>
       <v-card-title>
-        <span class="headline">Create Farm</span>
+        <span class="headline">Add new Crop</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -17,23 +17,15 @@
             </v-col>
 
             <v-col cols="12">
-              <v-text-field v-model="location" label="Location*" required></v-text-field>
+              <v-text-field v-model="plant" label="Plant*" required></v-text-field>
             </v-col>
-
-            <v-file-input
-              :rules="rules"
-              accept="image/png, image/jpeg, image/bmp"
-              placeholder="Pick an image"
-              prepend-icon="mdi-camera"
-              label="Upload Image"
-            ></v-file-input>
           </v-row>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-        <v-btn color="blue darken-1" text @click="onCreateFarm">Save</v-btn>
+        <v-btn color="blue darken-1" text @click="onCreateCrop">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,38 +36,38 @@ import CardInfo from "@/components/CardInfo.vue";
 import axios from "axios";
 
 export default {
-  name: "AddFarmForm",
+  name: "AddCropForm",
   components: { CardInfo },
   data: () => ({
     name: "",
-    location: "",
-    image: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg", // default image
+    plant: "",
+    image:
+      "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/270609_2200-1200x628.jpg", // default image
     dialog: false,
-    newStaff: {
-      id: "Add New Farm",
-      name: "Add New Farm",
+    newCrop: {
+      id: "Add New Crop",
+      name: "Add New Crop",
       image:
         "https://icons-for-free.com/iconfiles/png/512/circle+more+plus+icon-1320183136549593898.png",
       location: ""
-    },
-    date: new Date().toISOString().substr(0, 10),
-    menu: false,
-    rules: [(value) => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"]
+    }
   }),
   methods: {
-    async onCreateFarm() {
+    async onCreateCrop() {
       this.dialog = false;
       const payload = {
         name: this.name,
-        location: this.location,
+        plant: this.plant,
         image: this.image
       };
 
       try {
-        let response = await axios.post("http://localhost:3000/farms/create", payload);
+        const url = document.URL;
+        const _id = url.substring(url.lastIndexOf("/") + 1);
+        let response = await axios.post("http://localhost:3000/crops/create/" + _id, payload);
         if (response.status === 201) {
           // create successfully
-          this.$store.dispatch("validateToken");
+          this.$store.dispatch({ type: "getFarmData", _id });
           return true;
         } else return false;
       } catch (error) {

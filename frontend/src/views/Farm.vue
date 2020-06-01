@@ -1,11 +1,12 @@
 <template>
   <v-row>
+    <AddFarmForm />
+
     <v-card v-for="farm in getFarmLabel" :key="farm._id" :class="`d-flex ma-6`">
       <v-card @click="openFarmDetail(farm._id)">
         <CardInfo v-bind:data="farm" />
       </v-card>
     </v-card>
-    <AddFarmForm />
   </v-row>
 </template>
 
