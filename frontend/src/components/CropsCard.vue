@@ -1,12 +1,12 @@
 <template>
   <v-card class="mx-auto" width="400">
     <v-card-text class="pt-0">
-      <div class="title font-weight-boil mb-2">C-12</div>
-      <div class="subheading font-weight-light grey--text">Spinach</div>
+      <div class="title font-weight-boil mb-2">{{this.crop.name}}</div>
+      <div class="subheading font-weight-light grey--text">{{this.crop.plant}}</div>
     </v-card-text>
 
     <v-img
-      src="https://picsum.photos/350/165?random"
+      v-bind:src="this.crop.image"
       max-width="calc(100% - 32px)"
       class="grey darken-4 mx-auto mb-5"
     ></v-img>
@@ -37,11 +37,25 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "CropsCard",
+  props: {
+    data: String
+  },
   data: () => ({
     labels: ["12am", "3am", "6am", "9am", "12pm", "3pm", "6pm", "9pm"],
-    value: [200, 675, 410, 390, 310, 460, 250, 240]
-  })
+    value: [200, 675, 410, 390, 310, 460, 250, 240],
+    crop: {}
+  }),
+  created: async function() {
+    try {
+      let response = await axios.get("http://localhost:3000/crops/" + this.data);
+      this.crop = response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
 </script>

@@ -4,12 +4,12 @@
     <v-row>
       <AddCropForm />
       <v-card
-        v-for="crop in crops"
+        v-for="crop in getFarmDetail.crops"
         :key="crop._id"
         :class="`d-flex ma-4`"
         @click="openCropDetail(crop._id)"
       >
-        <CropsCard />
+        <CropsCard v-bind:data="crop._id" />
       </v-card>
     </v-row>
   </v-col>
@@ -18,6 +18,7 @@
 <script>
 import CropsCard from "@/components/CropsCard.vue";
 import AddCropForm from "@/components/AddCropForm.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Crops",
@@ -35,6 +36,10 @@ export default {
       }
     ]
   }),
+  computed: {
+    ...mapGetters(["getFarmDetail"]),
+    console: () => console
+  },
   methods: {
     // Open crop detail
     async openCropDetail(_id) {
