@@ -94,23 +94,26 @@ router.post('/me/logoutall', auth, async (req, res) => {
 // ====================== Staff===========================
 
 router.post('/createStaff', auth, async (req, res) => {
+  const farmId = req.body.farmId;
   // Create a Staff
-
   if (req.user.role === 1) {
     try {
       // TODO check already exit
       let staff = new User(req.body);
       staff.supervisor = req.user._id;
-      staff.farms.push(req.body.farmId);
+      staff.farms.push(farmId);
       let staffData = await staff.save();
       const staffLabel = { _id: staffData._id, name: staffData.name, image: staffData.image };
 
       req.user.staffs.push(staffLabel);
       await req.user.save();
 
-      let farmInfo = await Farm.findById({ _id: req.body.farmId });
-      farmInfo.staffs.push(staffLabel);
-      await farmInfo.save();
+      await Farm.updateOne(
+        { _id: farmId },
+        {
+          $push: { staffs: staffLabel }
+        }
+      );
 
       res.status(201).json({
         success: true,
