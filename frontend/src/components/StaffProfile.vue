@@ -12,17 +12,12 @@
         <v-col>
           <p class="mb-0">Phone number : {{this.data.phonenumber}}</p>
         </v-col>
-
-        <!-- <v-col>
-          <v-row>
-            <v-col cols="6">
-              <p class="mb-0">Number of staffs: {{this.data.staffs.length}}</p>
-            </v-col>
-            <v-col cols="6">
-              <p class="mb-0">Number of crops: {{this.data.crops.length}}</p>
-            </v-col>
-          </v-row>
-        </v-col>-->
+        <v-col>
+          <p
+            v-if="this.data.dateOfBirth"
+            class="mb-0"
+          >Date of birth : {{this.data.dateOfBirth.slice(0,10)}}</p>
+        </v-col>
         <v-col>
           <v-row class="justify-end">
             <v-btn small color="success">Edit</v-btn>
@@ -39,6 +34,9 @@ export default {
   data: () => ({}),
   props: {
     data: Object
+  },
+  computed: {
+    console: () => console
   },
   methods: {}
 };

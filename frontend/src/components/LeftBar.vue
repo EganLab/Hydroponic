@@ -35,8 +35,8 @@ export default {
     drawer: null,
     items: [
       { icon: "mdi-contacts", text: "Contacts", link: "/" },
-      { icon: "mdi-factory", text: "Farm", link: "/farm" },
       { icon: "mdi-account-box", text: "Staff", link: "/staff" },
+      { icon: "mdi-factory", text: "Farm", link: "/farm" },
       { icon: "mdi-history", text: "Tracking", link: "/tracking" },
       { icon: "mdi-content-copy", text: "Device", link: "/device" }
     ]

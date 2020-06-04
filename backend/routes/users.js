@@ -101,7 +101,15 @@ router.post('/createStaff', auth, async (req, res) => {
       // TODO check already exit
       let staff = new User(req.body);
       staff.supervisor = req.user._id;
-      staff.farms.push(farmId);
+
+      const farmInfo = await Farm.findById({ _id: farmId });
+      let staffFarm = {
+        _id: farmInfo._id,
+        name: farmInfo.name,
+        image: farmInfo.image
+      };
+
+      staff.farms.push(staffFarm);
       let staffData = await staff.save();
       const staffLabel = { _id: staffData._id, name: staffData.name, image: staffData.image };
 
