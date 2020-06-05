@@ -3,11 +3,30 @@ const { Schema } = mongoose;
 
 // demo
 const DeviceSchema = new Schema({
-  user_id: { type: String, required: true },
-  device_name: { type: String, required: true },
-  type: { type: String, required: true },
-  status: { type: String, required: true },
-  location: { type: String, required: true }
+  security_code: { type: String, required: true },
+  sensors: [
+    {
+      sensor: {
+        type: String
+      },
+      name: {
+        type: String,
+        trim: true
+      }
+    }
+  ],
+  actuators: [
+    {
+      actuator: {
+        type: String
+      },
+      name: {
+        type: String,
+        trim: true
+      }
+    }
+  ],
+  status: { type: Boolean }
 });
 
 const Device = mongoose.model('Device', DeviceSchema);
