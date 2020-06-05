@@ -6,33 +6,13 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="headline">User Profile</span>
+          <span class="headline">New Device</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field label="Legal first name*" required></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  label="Legal middle name"
-                  hint="example of helper text only on focus"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="4">
-                <v-text-field
-                  label="Legal last name*"
-                  hint="example of persistent helper text"
-                  persistent-hint
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Email*" required></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field label="Password*" type="password" required></v-text-field>
+              <v-col cols="12" sm="12">
+                <v-text-field v-model="security_code" label="Security code*" required></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -40,7 +20,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="onSave">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="onAddDevice">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -53,18 +33,23 @@ import axios from "axios";
 export default {
   name: "AddDeviceForm",
   data: () => ({
-    name: "",
+    security_code: "",
     dialog: false
   }),
   methods: {
     // with http
-    async addDevice() {
-      if (this.name) {
-        let name = {
-          name: this.name
+    async onAddDevice() {
+      this.dialog = false;
+      if (this.security_code) {
+        let device = {
+          security_code: this.security_code
         };
+
+        const url = document.URL;
+        const _id = url.substring(url.lastIndexOf("/") + 1);
+
         axios
-          .post("http://localhost:3000/devices/add", name)
+          .post("http://localhost:3000/devices/create/" + _id, device)
           .then((res) => {
             console.log("res", res);
           })

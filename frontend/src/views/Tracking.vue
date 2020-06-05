@@ -1,5 +1,25 @@
 <template>
   <div class="container">
+    <v-row class="justify-end">
+      <v-col class="pa-8 d-flex flex-row-reverse" cols="5">
+        <v-row class="md-7 justify-space-between">
+          <v-col cols="3">
+            <v-row class="align-center">
+              <h3>Add Device</h3>
+            </v-row>
+          </v-col>
+
+          <div class="my-2">
+            <!-- Dialog Form -->
+            <AddDeviceForm />
+          </div>
+          <div class="my-2">
+            <v-btn color="primary">By QR code</v-btn>
+          </div>
+        </v-row>
+      </v-col>
+    </v-row>
+
     <h1 class="my-7">General Stats</h1>
     <v-row class="justify-space-between">
       <Sensors
@@ -27,24 +47,6 @@
         <Devices class="my-7" name="Water Tank" status="Liters" />
       </v-col>
     </v-row>
-
-    <!-- <v-flex md8 offset-md2 class="pa-1" @submit.prevent="sendName">
-      <v-form style="width:100%">
-        <v-text-field label="Solo" placeholder="Type Your Name" v-model="name" solo ref="name"></v-text-field>
-      </v-form>
-    </v-flex>
-
-    <v-flex md8 offset-md2 class="pa-1" @submit.prevent="sendMessage">
-      <v-form style="width:100%">
-        <v-text-field
-          label="Solo"
-          placeholder="Type Your Message"
-          v-model="message"
-          solo
-          ref="message"
-        ></v-text-field>
-      </v-form>
-    </v-flex>-->
   </div>
 </template>
 
@@ -54,6 +56,7 @@ import io from "socket.io-client";
 
 import Sensors from "@/components/Tracking/Sensors.vue";
 import Devices from "@/components/Tracking/Devices.vue";
+import AddDeviceForm from "@/components/AddDeviceForm.vue";
 
 export default {
   name: "Tracking",
@@ -62,7 +65,8 @@ export default {
   },
   components: {
     Sensors,
-    Devices
+    Devices,
+    AddDeviceForm
   },
   data() {
     return {

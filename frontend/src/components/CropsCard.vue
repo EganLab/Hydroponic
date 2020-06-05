@@ -11,23 +11,29 @@
       class="grey darken-4 mx-auto mb-5"
     ></v-img>
 
-    <v-sheet
-      class="v-sheet--offset mx-auto mb-5"
-      color="cyan"
-      elevation="12"
-      max-width="calc(100% - 32px)"
-    >
-      <v-sparkline :labels="labels" :value="value" color="white" line-width="2" padding="16"></v-sparkline>
-    </v-sheet>
+    <div v-if="crop.devices && crop.devices.length > 0">
+      <v-sheet
+        class="v-sheet--offset mx-auto mb-5"
+        color="cyan"
+        elevation="12"
+        max-width="calc(100% - 32px)"
+      >
+        <v-sparkline :labels="labels" :value="value" color="white" line-width="2" padding="16"></v-sparkline>
+      </v-sheet>
 
-    <v-sheet
-      class="v-sheet--offset mx-auto"
-      color="cyan"
-      elevation="12"
-      max-width="calc(100% - 32px)"
-    >
-      <v-sparkline :labels="labels" :value="value" color="white" line-width="2" padding="16"></v-sparkline>
-    </v-sheet>
+      <v-sheet
+        class="v-sheet--offset mx-auto"
+        color="cyan"
+        elevation="12"
+        max-width="calc(100% - 32px)"
+      >
+        <v-sparkline :labels="labels" :value="value" color="white" line-width="2" padding="16"></v-sparkline>
+      </v-sheet>
+    </div>
+
+    <v-card-title>Create new Crop successfully</v-card-title>
+
+    <v-card-subtitle>Please click to setup Device</v-card-subtitle>
     <v-card-text>
       <v-divider class="my-2"></v-divider>
       <v-icon class="mr-2" small>mdi-clock</v-icon>

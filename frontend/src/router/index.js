@@ -74,7 +74,7 @@ const routes = [
     beforeEnter: ifNotAuthenticated
   },
   {
-    path: "/tracking",
+    path: "/tracking/:id",
     name: "Tracking",
     component: Tracking,
     beforeEnter: ifNotAuthenticated

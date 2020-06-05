@@ -23,19 +23,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "Crops",
   components: { CropsCard, AddCropForm },
-  data: () => ({
-    crops: [
-      {
-        _id: 1
-      },
-      {
-        _id: 2
-      },
-      {
-        _id: 3
-      }
-    ]
-  }),
+  data: () => ({}),
   computed: {
     ...mapGetters(["getFarmDetail"]),
     console: () => console
@@ -43,7 +31,7 @@ export default {
   methods: {
     // Open crop detail
     async openCropDetail(_id) {
-      console.log(_id);
+      this.$router.push("/tracking/" + _id);
     }
   }
 };
