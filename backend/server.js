@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 
 var users = require('./routes/users');
 var devices = require('./routes/devices');
-var trackings = require('./routes/trackings');
+var actuators = require('./routes/actuators');
 var farms = require('./routes/farms');
 var crops = require('./routes/crops');
 
@@ -65,7 +65,7 @@ app.use(
 // routes ======================================================================
 app.use('/users', users);
 app.use('/devices', devices);
-app.use('/trackings', trackings);
+app.use('/actuators', actuators);
 app.use('/farms', farms);
 app.use('/crops', crops);
 
