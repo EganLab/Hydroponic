@@ -2,11 +2,11 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 const Device = require('../models/Device');
 const Crop = require('../models/Crop');
+const Actuator = require('../models/Actuator');
 
 router.post('/create/:id', auth, async (req, res) => {
   let cropId = req.params.id;
   // TODO check permision to add Device like is he working in that farm have this crop
-
   const CropInfo = await Crop.findById({ _id: cropId });
 
   if (!!CropInfo) {
@@ -20,6 +20,40 @@ router.post('/create/:id', auth, async (req, res) => {
           $push: { devices: [{ _id: deviceData._id }] }
         }
       );
+
+      // add Pump
+      let pump = {
+        name: 'Pump',
+        deviceId: deviceData._id,
+        status: false
+      };
+
+      let actuator = new Actuator(pump);
+      let pumpData = await actuator.save();
+
+      await Device.updateOne(
+        { _id: deviceData._id },
+        {
+          $push: { actuators: [{ _id: pumpData._id, name: pumpData.name }] }
+        }
+      );
+
+      // add Pan
+      let pan = {
+        name: 'Pan',
+        deviceId: deviceData._id,
+        status: false
+      };
+      actuator = new Actuator(pan);
+      let panData = await actuator.save();
+
+      await Device.updateOne(
+        { _id: deviceData._id },
+        {
+          $push: { actuators: [{ _id: panData._id, name: panData.name }] }
+        }
+      );
+      // Can add more actuators
 
       res.status(201).json({
         success: true,
