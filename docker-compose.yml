@@ -103,6 +103,7 @@ services:
       RABBITMQ_ERLANG_COOKIE: 'secret-cookie-here'
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq
+    restart: always
     ports:
       - 5672:5672
       - 8000:15672
