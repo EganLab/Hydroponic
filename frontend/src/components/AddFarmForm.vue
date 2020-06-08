@@ -21,6 +21,7 @@
             </v-col>
 
             <v-file-input
+              v-model="image"
               :rules="rules"
               accept="image/png, image/jpeg, image/bmp"
               placeholder="Pick an image"
@@ -49,7 +50,7 @@ export default {
   data: () => ({
     name: "",
     location: "",
-    image: "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg", // default image
+    image: "", // default image
     dialog: false,
     newStaff: {
       id: "Add New Farm",
@@ -65,21 +66,25 @@ export default {
   methods: {
     async onCreateFarm() {
       this.dialog = false;
-      const payload = {
-        name: this.name,
-        location: this.location,
-        image: this.image
-      };
+      const payload = new FormData();
+      let image =
+        this.image !== "" ? this.image : "https://cdn.vuetifyjs.com/images/cards/sunshine.jpg";
+      payload.append("image", image);
+      payload.append("name", this.name);
+      payload.append("location", this.location);
 
       try {
         let response = await axios.post("http://localhost:3000/farms/create", payload);
         if (response.status === 201) {
           // create successfully
+          console.log(response.data);
           this.$store.dispatch("validateToken");
           return true;
         } else return false;
       } catch (error) {
         return false;
+      } finally {
+        this.image = "";
       }
     }
   }

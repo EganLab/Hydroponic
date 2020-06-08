@@ -2,9 +2,12 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 const Farm = require('../models/Farm');
 const Crop = require('../models/Crop');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var CloudUpload = require('../lib/cloud-upload');
 
 // create crop with farmId
-router.post('/create/:id', auth, async (req, res) => {
+router.post('/create/:id', auth, upload.single('image'), async (req, res) => {
   // only admin or staff work in farm can create crop
   let farmId = req.params.id;
   let isHave = req.user.farms.filter(farm => {
@@ -13,7 +16,9 @@ router.post('/create/:id', auth, async (req, res) => {
 
   if (isHave.length > 0) {
     try {
-      let crop = new Crop(req.body);
+      let createParams = req.body;
+      createParams.image = await CloudUpload.imageUpload(req.file);
+      let crop = new Crop(createParams);
       let cropData = await crop.save();
 
       await Farm.updateOne(
