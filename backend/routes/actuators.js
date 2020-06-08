@@ -4,7 +4,8 @@ const Actuator = require('../models/Actuator');
 const Device = require('../models/Device');
 const { publishToQueue } = require('../config/rabbitmqProducter');
 
-router.get('/:id', async (req, res) => {
+// get all actuator of device
+router.get('/device/:id', async (req, res) => {
   let deviceId = req.params.id;
   // TODO need more authorization
   try {
@@ -20,6 +21,17 @@ router.get('/:id', async (req, res) => {
         actuators: actuatorData
       });
     }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+// get actuator by id
+router.get('/:id', async (req, res) => {
+  // TODO need more authorization
+  try {
+    const actuatorData = await Actuator.findById({ _id: req.params.id });
+    res.status(200).json(actuatorData);
   } catch (error) {
     res.status(400).send(error);
   }

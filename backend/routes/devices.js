@@ -12,6 +12,7 @@ router.post('/create/:id', auth, async (req, res) => {
   if (!!CropInfo) {
     try {
       let device = new Device(req.body);
+      console.log(req.body);
       let deviceData = await device.save();
 
       await Crop.updateOne(
@@ -38,19 +39,19 @@ router.post('/create/:id', auth, async (req, res) => {
         }
       );
 
-      // add Pan
-      let pan = {
-        name: 'Pan',
+      // add Lamp
+      let lamp = {
+        name: 'Lamp',
         deviceId: deviceData._id,
         status: false
       };
-      actuator = new Actuator(pan);
-      let panData = await actuator.save();
+      actuator = new Actuator(lamp);
+      let lampData = await actuator.save();
 
       await Device.updateOne(
         { _id: deviceData._id },
         {
-          $push: { actuators: [{ _id: panData._id, name: panData.name }] }
+          $push: { actuators: [{ _id: lampData._id, name: lampData.name }] }
         }
       );
       // Can add more actuators
@@ -70,4 +71,15 @@ router.post('/create/:id', auth, async (req, res) => {
   }
 });
 
+router.get('/:id', auth, async (req, res) => {
+  let deviceId = req.params.id;
+  // TODO need more authorization
+  try {
+    const DeviceInfo = await Device.findById({ _id: deviceId });
+
+    res.status(200).json(DeviceInfo);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 module.exports = router;
