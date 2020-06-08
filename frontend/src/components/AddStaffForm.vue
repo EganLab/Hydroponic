@@ -132,7 +132,6 @@ export default {
       };
       let formData = new FormData();
       for (let key in payload) {
-        console.log(key, payload[key]);
         formData.append(key, payload[key]);
       }
       //  Create new staff
