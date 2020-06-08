@@ -2,6 +2,9 @@ const router = require('express').Router();
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 const Farm = require('../models/Farm');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var CloudUpload = require('../lib/cloud-upload');
 
 router.post('/', async (req, res) => {
   try {
@@ -93,13 +96,16 @@ router.post('/me/logoutall', auth, async (req, res) => {
 });
 // ====================== Staff===========================
 
-router.post('/createStaff', auth, async (req, res) => {
+router.post('/createStaff', auth, upload.single('image'), async (req, res) => {
   const farmId = req.body.farmId;
   // Create a Staff
   if (req.user.role === 1) {
     try {
       // TODO check already exit
-      let staff = new User(req.body);
+      let createParams = req.body;
+      createParams.image = await CloudUpload.imageUpload(req.file);
+
+      let staff = new User(createParams);
       staff.supervisor = req.user._id;
 
       const farmInfo = await Farm.findById({ _id: farmId });

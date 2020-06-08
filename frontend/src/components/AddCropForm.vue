@@ -19,6 +19,19 @@
             <v-col cols="12">
               <v-text-field v-model="plant" label="Plant*" required></v-text-field>
             </v-col>
+
+            <v-col cols="12">
+              <v-col cols="12">
+                <v-file-input
+                  v-model="image"
+                  :rules="rules"
+                  accept="image/png, image/jpeg, image/bmp"
+                  placeholder="Pick an image"
+                  prepend-icon="mdi-camera"
+                  label="Upload Image"
+                ></v-file-input>
+              </v-col>
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
@@ -41,8 +54,7 @@ export default {
   data: () => ({
     name: "",
     plant: "",
-    image:
-      "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/270609_2200-1200x628.jpg", // default image
+    image: "", // default image
     dialog: false,
     newCrop: {
       id: "Add New Crop",
@@ -58,13 +70,21 @@ export default {
       const payload = {
         name: this.name,
         plant: this.plant,
-        image: this.image
+        image:
+          this.image !== ""
+            ? this.image
+            : "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/270609_2200-1200x628.jpg"
       };
+      let formData = new FormData();
+      for (let key in payload) {
+        console.log(key, payload[key]);
+        formData.append(key, payload[key]);
+      }
 
       try {
         const url = document.URL;
         const _id = url.substring(url.lastIndexOf("/") + 1);
-        let response = await axios.post("http://localhost:3000/crops/create/" + _id, payload);
+        let response = await axios.post("http://localhost:3000/crops/create/" + _id, formData);
         if (response.status === 201) {
           // create successfully
           this.$store.dispatch({ type: "getFarmData", _id });

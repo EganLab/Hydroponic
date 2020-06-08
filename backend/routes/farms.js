@@ -1,12 +1,17 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
 const Farm = require('../models/Farm');
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' });
+var CloudUpload = require('../lib/cloud-upload');
 
-router.post('/create', auth, async (req, res) => {
+router.post('/create', auth, upload.single('image'), async (req, res) => {
   // only admin can create farm
   if (req.user.role === 1) {
     try {
-      let farm = new Farm(req.body);
+      let createParams = req.body;
+      createParams.image = await CloudUpload.imageUpload(req.file);
+      let farm = new Farm(createParams);
       // Add Supervisor
       farm.supervisor = req.user._id;
 

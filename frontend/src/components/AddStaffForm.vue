@@ -62,6 +62,17 @@
                 label="Farm"
               ></v-select>
             </v-col>
+
+            <v-col cols="12">
+              <v-file-input
+                v-model="image"
+                :rules="rules"
+                accept="image/png, image/jpeg, image/bmp"
+                placeholder="Pick an image"
+                prepend-icon="mdi-camera"
+                label="Upload Image"
+              ></v-file-input>
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
@@ -91,7 +102,7 @@ export default {
     phonenumber: "",
     farm: "",
     menu: false,
-    image: "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
+    image: "",
     newStaff: {
       id: "add new staff",
       name: "add new staff",
@@ -115,12 +126,18 @@ export default {
         dateOfBirth: this.date,
         role: 2,
         phonenumber: this.phonenumber,
-        image: this.image,
+        image:
+          this.image !== "" ? this.image : "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
         farmId: this.farm
       };
+      let formData = new FormData();
+      for (let key in payload) {
+        console.log(key, payload[key]);
+        formData.append(key, payload[key]);
+      }
       //  Create new staff
       try {
-        let response = await axios.post("http://localhost:3000/users/createStaff", payload);
+        let response = await axios.post("http://localhost:3000/users/createStaff", formData);
         if (response.status === 201) {
           // create successfully
           this.$store.dispatch("validateToken");

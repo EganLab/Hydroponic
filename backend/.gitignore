@@ -2,3 +2,4 @@ node_modules
 yarn.lock
 .env
 user_data
+uploads
