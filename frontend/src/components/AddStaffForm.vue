@@ -103,6 +103,7 @@ export default {
     farm: "",
     menu: false,
     image: "",
+    rules: [(value) => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"],
     newStaff: {
       id: "add new staff",
       name: "add new staff",

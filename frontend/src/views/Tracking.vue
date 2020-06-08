@@ -20,33 +20,9 @@
       </v-col>
     </v-row>
 
-    <h1 class="my-7">General Stats</h1>
-    <v-row class="justify-space-between">
-      <Sensors
-        name="Humidity"
-        icon="mdi-water"
-        v-bind:gradient="['#89f7fe', '#66a6ff']"
-        unit="% RH"
-      />
-      <Sensors
-        name="Temperature"
-        icon="mdi-temperature-celsius"
-        v-bind:gradient="['#fad0c4', '#ff9a9e']"
-        unit="°C"
-      />
-    </v-row>
-
-    <h1 class="my-7">Sensor data</h1>
-
-    <v-row class="justify-space-around">
-      <v-col cols="5" class="half-heigh">
-        <Devices class="my-7" name="Pump" status="Running" />
-        <Devices class="my-7" name="Fertiliser" status="Available" />
-      </v-col>
-      <v-col cols="5" class="tank-heigh">
-        <Devices class="my-7" name="Water Tank" status="Liters" />
-      </v-col>
-    </v-row>
+    <v-card class="pa-7 mb-7" v-for="device in this.devices" :key="device._id">
+      <DeviceDetail v-bind:data="device" />
+    </v-card>
   </div>
 </template>
 
@@ -54,8 +30,7 @@
 import axios from "axios";
 import io from "socket.io-client";
 
-import Sensors from "@/components/Tracking/Sensors.vue";
-import Devices from "@/components/Tracking/Devices.vue";
+import DeviceDetail from "@/components/DeviceDetail.vue";
 import AddDeviceForm from "@/components/AddDeviceForm.vue";
 
 export default {
@@ -64,16 +39,26 @@ export default {
     msg: String
   },
   components: {
-    Sensors,
-    Devices,
+    DeviceDetail,
     AddDeviceForm
   },
   data() {
     return {
       name: "",
       message: "",
-      socket: io("localhost:3000")
+      socket: io("localhost:3000"),
+      devices: []
     };
+  },
+  created: async function() {
+    try {
+      const url = document.URL;
+      const _id = url.substring(url.lastIndexOf("/") + 1);
+      let response = await axios.get("http://localhost:3000/crops/" + _id);
+      this.devices = response.data.devices;
+    } catch (error) {
+      console.log(error);
+    }
   },
   mounted: function() {
     this.socket.on("changeData", (data) => {
@@ -113,14 +98,3 @@ export default {
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.half-heigh {
-  height: 200px;
-}
-
-.tank-heigh {
-  height: 403px;
-}
-</style>

@@ -3,31 +3,24 @@
     <v-card-title>
       <!-- <v-icon :color="gradient[1]" class="mr-12" size="64" @click="takePulse">{{icon}}</v-icon> -->
       <v-row align="start">
-        <div class="caption grey--text text-uppercase">{{ name }}</div>
+        <div v-if="this.data" class="caption grey--text text-uppercase">{{ this.data.name }}</div>
       </v-row>
 
       <v-spacer></v-spacer>
-
-      <v-btn icon class="align-self-start" size="28">
-        <v-icon>mdi-arrow-right-thick</v-icon>
-      </v-btn>
     </v-card-title>
 
-    <div v-show="name == 'Pump'">
+    <div v-if="this.data && this.data.name === 'Pump'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img :src="require('../../assets/pump.png')" class="my-3 small-image-size" contain />
         </div>
-        <div class="d-flex align-content-center flex-wrap">
-          <div>
-            <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{ status }}</strong>
-          </div>
+        <div class="d-flex align-content-center flex-wrap" @click="onControlActuator">
+          <v-switch v-model="pump" :label="`Pump: ${pump.toString()}`" />
         </div>
       </v-row>
     </div>
 
-    <div v-show="name == 'Fertiliser'">
+    <div v-if="this.data && this.data.name === 'Lamp'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img
@@ -37,15 +30,14 @@
           />
         </div>
         <div class="d-flex align-content-center flex-wrap">
-          <div>
-            <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{ status }}</strong>
+          <div class="d-flex align-content-center flex-wrap" @click="onControlActuator">
+            <v-switch v-model="lamp" :label="`Lamp: ${lamp.toString()}`" />
           </div>
         </div>
       </v-row>
     </div>
 
-    <div v-show="name == 'Water Tank'">
+    <!-- <div v-if="this.data && this.data.name === 'Water Tank'">
       <v-row class="justify-space-around">
         <div class="image">
           <v-img :src="require('../../assets/tank.png')" class="my-3 large-image-size" contain />
@@ -59,22 +51,54 @@
       </v-row>
       <v-sheet color="transparent">
         <div class="tank-limit">
-          <v-progress-linear
-            value="50"
-            :height="'8px'"
-            color="light-blue"
-            :rounded="true"
-          ></v-progress-linear>
+          <v-progress-linear value="50" :height="'8px'" color="light-blue" :rounded="true"></v-progress-linear>
         </div>
       </v-sheet>
-    </div>
+    </div>-->
   </v-card>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Devices",
-  props: ["name", "status"]
+  props: {
+    data: Object
+  },
+  data: () => ({
+    pump: false,
+    lamp: false
+  }),
+  mounted: async function() {
+    await this.getActuator();
+  },
+  computed: {},
+  methods: {
+    onControlActuator: async function(status) {
+      const payload = {
+        _id: this.data._id,
+        status: !!status
+      };
+      let response = await axios.post("http://localhost:3000/actuators/control", payload);
+      console.log(response.data);
+    },
+    getActuator: async function() {
+      if (this.data._id) {
+        try {
+          let response = await axios.get("http://localhost:3000/actuators/" + this.data._id);
+          if (response.data.name === "Pump")
+            if (response.data.status === "true") this.pump = true;
+            else this.pump = false;
+          else if (response.data.name === "Lamp")
+            if (response.data.status === "true") this.lamp = true;
+            else this.lamp = false;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+  }
 };
 </script>
 

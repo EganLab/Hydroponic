@@ -51,7 +51,7 @@ export default {
         axios
           .post("http://localhost:3000/devices/create/" + _id, device)
           .then((res) => {
-            console.log("res", res);
+            console.log("res", res.data.message);
           })
           .catch((error) => {
             console.log(error);

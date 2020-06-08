@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent>
+  <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on }">
       <v-card v-on="on" :class="`d-flex ma-4`">
         <CardInfo v-bind:data="newCrop" />
@@ -10,30 +10,26 @@
         <span class="headline">Add new Crop</span>
       </v-card-title>
       <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12">
-              <v-text-field v-model="name" label="Legal Farm Name*" required></v-text-field>
-            </v-col>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="name" label="Legal Farm Name*" required></v-text-field>
+          </v-col>
 
-            <v-col cols="12">
-              <v-text-field v-model="plant" label="Plant*" required></v-text-field>
-            </v-col>
+          <v-col cols="12">
+            <v-text-field v-model="plant" label="Plant*" required></v-text-field>
+          </v-col>
 
-            <v-col cols="12">
-              <v-col cols="12">
-                <v-file-input
-                  v-model="image"
-                  :rules="rules"
-                  accept="image/png, image/jpeg, image/bmp"
-                  placeholder="Pick an image"
-                  prepend-icon="mdi-camera"
-                  label="Upload Image"
-                ></v-file-input>
-              </v-col>
-            </v-col>
-          </v-row>
-        </v-container>
+          <v-col cols="12">
+            <v-file-input
+              v-model="image"
+              :rules="rules"
+              accept="image/png, image/jpeg, image/bmp"
+              placeholder="Pick an image"
+              prepend-icon="mdi-camera"
+              label="Upload Image"
+            ></v-file-input>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -54,8 +50,9 @@ export default {
   data: () => ({
     name: "",
     plant: "",
-    image: "", // default image
+    image: "",
     dialog: false,
+    rules: [(value) => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"],
     newCrop: {
       id: "Add New Crop",
       name: "Add New Crop",

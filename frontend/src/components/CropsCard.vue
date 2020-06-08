@@ -31,9 +31,11 @@
       </v-sheet>
     </div>
 
-    <v-card-title>Create new Crop successfully</v-card-title>
+    <div v-else>
+      <v-card-title>Create new Crop successfully</v-card-title>
+      <v-card-subtitle>Please click to setup Device</v-card-subtitle>
+    </div>
 
-    <v-card-subtitle>Please click to setup Device</v-card-subtitle>
     <v-card-text>
       <v-divider class="my-2"></v-divider>
       <v-icon class="mr-2" small>mdi-clock</v-icon>
