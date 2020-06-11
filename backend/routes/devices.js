@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const Device = require('../models/Device');
 const Crop = require('../models/Crop');
 const Actuator = require('../models/Actuator');
+const Sensor = require('../models/Sensor');
 
 router.post('/create/:id', auth, async (req, res) => {
   let cropId = req.params.id;
@@ -12,7 +13,6 @@ router.post('/create/:id', auth, async (req, res) => {
   if (!!CropInfo) {
     try {
       let device = new Device(req.body);
-      console.log(req.body);
       let deviceData = await device.save();
 
       await Crop.updateOne(
@@ -21,6 +21,13 @@ router.post('/create/:id', auth, async (req, res) => {
           $push: { devices: [{ _id: deviceData._id }] }
         }
       );
+      // =======================================================================
+      // Add actuator and sensor ===============================================
+      // =======================================================================
+
+      // =================================================================
+      //   Add Actuator ==================================================
+      // =================================================================
 
       // add Pump
       let pump = {
@@ -55,6 +62,40 @@ router.post('/create/:id', auth, async (req, res) => {
         }
       );
       // Can add more actuators
+
+      // =================================================================
+      //   Add Sensor ====================================================
+      // =================================================================
+
+      // add humidity
+      let humidity = {
+        name: 'humidity',
+        deviceId: deviceData._id
+      };
+      let sensor = new Sensor(humidity);
+      let sensorData = await sensor.save();
+
+      await Device.updateOne(
+        { _id: deviceData._id },
+        {
+          $push: { sensors: [{ _id: sensorData._id, name: sensorData.name }] }
+        }
+      );
+
+      // add Lamp
+      let temperature = {
+        name: 'temperature',
+        deviceId: deviceData._id
+      };
+      sensor = new Sensor(temperature);
+      let temperatureData = await sensor.save();
+
+      await Device.updateOne(
+        { _id: deviceData._id },
+        {
+          $push: { sensors: [{ _id: temperatureData._id, name: temperatureData.name }] }
+        }
+      );
 
       res.status(201).json({
         success: true,

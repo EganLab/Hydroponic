@@ -78,31 +78,6 @@ app.io = require('socket.io')(server);
 require('./routes/events')(app.io);
 
 // rabbitmq ======================================================================
-rabbitConn(function(conn) {
-  conn.createChannel(function(err, ch) {
-    if (err) {
-      throw new Error(err);
-    }
-    var ex = 'logs';
-
-    ch.assertExchange(ex, 'fanout', { durable: false });
-    ch.assertQueue(
-      'control',
-      { exclusive: true },
-      function(err, q) {
-        console.log(' [*] Waiting for messages in %s. To exit press CTRL+C', q.queue);
-
-        if (err) {
-          throw new Error(err);
-        }
-        ch.bindQueue(q.queue, ex, '');
-        ch.consume(q.que, function(msg) {
-          console.log(' [x] %s', msg.content.toString());
-        });
-      },
-      { noAck: true }
-    );
-  });
-});
+rabbitConn();
 
 console.log('The magic happens on port ' + port);

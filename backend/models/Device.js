@@ -3,7 +3,13 @@ const { Schema } = mongoose;
 
 // demo
 const DeviceSchema = new Schema({
-  security_code: { type: 'String', required: true, unique: true, lowercase: true, trim: true },
+  security_code: {
+    type: 'String',
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
   sensors: [
     {
       sensor: {
