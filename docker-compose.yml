@@ -22,10 +22,10 @@ services:
     restart: always
     command: 'yarn start'
 
-  vue_frontend:
-    hostname: vue_frontend
+  frontend:
+    hostname: frontend
     image: 'node:10-alpine'
-    container_name: vue_frontend
+    container_name: frontend
     restart: always
     working_dir: /app
     volumes:
