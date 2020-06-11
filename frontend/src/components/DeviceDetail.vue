@@ -1,19 +1,18 @@
 <template>
   <v-col>
-    <h1 class="my-7">{{data._id}}</h1>
+    <h1 class="my-7">{{ data._id }}</h1>
     <h2 class="my-7">Sensor Data</h2>
-    <v-row class="justify-space-between">
+    <v-row
+      class="justify-space-between"
+      v-for="testsensor in this.testsensors"
+      :key="testsensor._id"
+    >
       <Sensors
-        name="Humidity"
-        icon="mdi-water"
-        v-bind:gradient="['#89f7fe', '#66a6ff']"
-        unit="% RH"
-      />
-      <Sensors
-        name="Temperature"
-        icon="mdi-temperature-celsius"
-        v-bind:gradient="['#fad0c4', '#ff9a9e']"
-        unit="°C"
+        class="my-7"
+        v-bind:name="testsensor.name"
+        v-bind:icon="testsensor.icon"
+        v-bind:gradient="testsensor.gradient"
+        v-bind:unit="testsensor.unit"
       />
     </v-row>
 
@@ -44,7 +43,21 @@ export default {
   },
   data: () => ({
     sensor: [],
-    actuators: []
+    actuators: [],
+    testsensors: [
+      {
+        name: "Humidity",
+        icon: "mdi-water",
+        gradient: ["#89f7fe", "#66a6ff"],
+        unit: "% RH"
+      },
+      {
+        name: "Temperature",
+        icon: "mdi-temperature-celsius",
+        gradient: ["#fad0c4", "#ff9a9e"],
+        unit: "°C"
+      }
+    ]
   }),
   mounted: async function() {
     await this.getActuators();
@@ -64,7 +77,6 @@ export default {
   }
 };
 </script>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
