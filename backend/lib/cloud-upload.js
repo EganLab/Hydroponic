@@ -8,6 +8,8 @@ module.exports.imageUpload = async function(file, options = {}) {
     if (file.path) {
       const result = await cloudinary.uploader.upload(file.path, options);
       return result.url;
+    } else if (file) {
+      return file;
     } else {
       return 'https://cdn.vuetifyjs.com/images/cards/sunshine.jpg';
     }

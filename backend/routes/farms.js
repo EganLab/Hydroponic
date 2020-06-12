@@ -4,6 +4,8 @@ const Farm = require('../models/Farm');
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 var CloudUpload = require('../lib/cloud-upload');
+const Crop = require('../models/Crop');
+const User = require('../models/User');
 
 router.post('/create', auth, upload.single('image'), async (req, res) => {
   // only admin can create farm
@@ -49,6 +51,30 @@ router.get('/:id', auth, async (req, res) => {
     res.status(400).json({
       success: false,
       message: 'You do not have permission to get farm info or do not have this farm'
+    });
+  }
+});
+
+router.delete('/:id', auth, async (req, res) => {
+  let farmId = req.params.id;
+  let isHave = req.user.farms.filter(farm => {
+    return JSON.stringify(farm._id) === JSON.stringify(farmId);
+  });
+
+  if (isHave.length > 0) {
+    const farm = await Farm.findById({ _id: farmId });
+    await Crop.deleteMany({ _id: { $in: farm.crops.map(crop => crop._id) } });
+    await User.update({ _id: req.user._id }, { $pull: { farms: { _id: farmId } } });
+    await Farm.deleteOne({ _id: farmId });
+
+    res.status(200).json({
+      success: true,
+      message: 'Delete success'
+    });
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'You do not have permission to delete farm info or do not have this farm'
     });
   }
 });

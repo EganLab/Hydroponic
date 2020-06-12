@@ -176,4 +176,43 @@ router.get('/staff/:id', auth, async (req, res) => {
   }
 });
 
+router.delete('/staff/:id', auth, async (req, res) => {
+  if (req.user.role === 1) {
+    let staffId = req.params.id;
+    let isHave = req.user.staffs.filter(staff => {
+      return JSON.stringify(staff._id) === JSON.stringify(staffId);
+    });
+
+    if (isHave.length > 0) {
+      const result = await User.deleteOne({ _id: staffId });
+      await User.update(
+        { _id: req.user._id },
+        { staffs: req.user.staffs.filter(e => e._id != staffId) }
+      );
+      const farmIds = req.user.farms.map(el => el._id);
+      await Farm.update({ _id: { $in: farmIds } }, { $pull: { staffs: { _id: staffId } } });
+      res.status(200).json({
+        success: true,
+        message: 'Delete success'
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: 'You do not have permission to get staff info or do not have this staff'
+      });
+    }
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'You do not have permission to get staff info'
+    });
+  }
+});
+
+router.delete('/test/:id', auth, async (req, res) => {
+  // const result = await User.update({ _id: req.user._id }, { staffs: [] });
+  let staffId = req.params.id;
+  res.status(200).json({ staffId, id: result[0]._id, test: result[0]._id == staffId });
+});
+
 module.exports = router;
