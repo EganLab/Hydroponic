@@ -20,24 +20,45 @@
         </v-col>
         <v-col>
           <v-row class="justify-end">
-            <v-btn small color="success">Edit</v-btn>
+            <v-btn small color="success" class="mx-2" @click="openEditDialog">Edit</v-btn>
+            <v-btn small color="error" class="mx-2" @click="openDeleteDialog">Delete</v-btn>
           </v-row>
         </v-col>
       </v-card>
     </v-col>
+    <DeleteDialog :dialog="dialog.deleteDialog" :actionUrl="deleteUrl" objectName="Staff"></DeleteDialog>
+    <UpdateStaffDialog :dialog="dialog.editDialog" :data="data"></UpdateStaffDialog>
   </v-container>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import DeleteDialog from "./DeleteDialog";
+import UpdateStaffDialog from "./UpdateStaffDialog";
+
 export default {
   name: "FarmProfile",
-  data: () => ({}),
+  data: () => ({
+    deleteConfirmDialog: false
+  }),
   props: {
     data: Object
   },
+  components: {
+    DeleteDialog,
+    UpdateStaffDialog
+  },
   computed: {
+    deleteUrl() {
+      return `http://localhost:3000/users/staff/${this.data._id}`;
+    },
+    ...mapState({
+      dialog: (state) => state.DialogModule
+    }),
     console: () => console
   },
-  methods: {}
+  methods: {
+    ...mapActions(["openDeleteDialog", "openEditDialog"])
+  }
 };
 </script>
