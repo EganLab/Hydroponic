@@ -4,10 +4,14 @@ const { Schema } = mongoose;
 const SensorSchema = new Schema({
   name: { type: String, required: true, trim: true },
   deviceId: { type: String, required: true, trim: true },
-  sensorDataId: [
+  dataSets: [
     {
       _id: {
         type: String
+      },
+      bucket: {
+        type: Date,
+        trim: true
       }
     }
   ]
