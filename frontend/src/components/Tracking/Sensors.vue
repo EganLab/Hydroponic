@@ -5,12 +5,14 @@
       <v-row align="start">
         <div class="caption grey--text text-uppercase">{{ name }}</div>
       </v-row>
-
+      <v-col cols="7"></v-col>
+      <v-col class="d-flex" cols="3">
+        <v-select v-model="time" :items="items" label="Time"></v-select>
+      </v-col>
       <v-spacer></v-spacer>
     </v-card-title>
-
     <v-sheet color="transparent">
-      <Chart />
+      <Chart v-bind:mode="this.time" />
     </v-sheet>
   </v-card>
 </template>
@@ -22,7 +24,9 @@ export default {
   name: "Sensors",
   data: () => ({
     checking: false,
-    heartbeats: []
+    heartbeats: [],
+    items: ["Minute", "Hour", "From start"],
+    time: "Minute"
   }),
   components: {
     Chart

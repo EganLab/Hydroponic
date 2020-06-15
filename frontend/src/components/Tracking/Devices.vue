@@ -36,25 +36,6 @@
         </div>
       </v-row>
     </div>
-
-    <!-- <div v-if="this.data && this.data.name === 'Water Tank'">
-      <v-row class="justify-space-around">
-        <div class="image">
-          <v-img :src="require('../../assets/tank.png')" class="my-3 large-image-size" contain />
-        </div>
-        <div class="d-flex align-content-center flex-wrap">
-          <div>
-            <span class="display-2 font-weight-black" v-text="200"></span>
-            <strong>{{ status }}</strong>
-          </div>
-        </div>
-      </v-row>
-      <v-sheet color="transparent">
-        <div class="tank-limit">
-          <v-progress-linear value="50" :height="'8px'" color="light-blue" :rounded="true"></v-progress-linear>
-        </div>
-      </v-sheet>
-    </div>-->
   </v-card>
 </template>
 

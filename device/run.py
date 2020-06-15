@@ -20,6 +20,9 @@ while True:
             temperature, humidity))
     else:
         print("Sensor failure. Check wiring.")
+        temperature = 0
+        humidity = 0
+
     time.sleep(3)
     created_at = datetime.datetime.now().isoformat()
     message = '{"security_code":"123456","data":[{"name":"humidity","data":${humidity}},{"name":"temperature","data":${temperature}}],"created_at":${created_at}}'
