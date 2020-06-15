@@ -5,6 +5,7 @@ import UIModule from "./modules/ui";
 import UserModule from "./modules/user";
 import FarmModule from "./modules/farm";
 import DialogModule from "./modules/dialog";
+import DeviceModule from "./modules/device";
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     UIModule,
     UserModule,
     FarmModule,
-    DialogModule
+    DialogModule,
+    DeviceModule
   }
 });

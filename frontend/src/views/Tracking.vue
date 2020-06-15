@@ -27,8 +27,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import io from "socket.io-client";
+import axios from "axios";
+import { mapState } from "vuex";
 
 import DeviceDetail from "@/components/DeviceDetail.vue";
 import AddDeviceForm from "@/components/AddDeviceForm.vue";
@@ -46,19 +47,17 @@ export default {
     return {
       name: "",
       message: "",
-      socket: io("localhost:3000"),
-      devices: []
+      socket: io("localhost:3000")
     };
   },
+  computed: {
+    ...mapState({
+      devices: (state) => state.DeviceModule.devices
+    })
+  },
   created: async function() {
-    try {
-      const url = document.URL;
-      const _id = url.substring(url.lastIndexOf("/") + 1);
-      let response = await axios.get("http://localhost:3000/crops/" + _id);
-      this.devices = response.data.devices;
-    } catch (error) {
-      console.log(error);
-    }
+    const cropId = this.$route.path.split("/").pop();
+    this.$store.dispatch("getDeviceList", cropId);
   },
   mounted: function() {
     this.socket.on("changeData", (data) => {

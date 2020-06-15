@@ -184,7 +184,7 @@ router.delete('/staff/:id', auth, async (req, res) => {
     });
 
     if (isHave.length > 0) {
-      const result = await User.deleteOne({ _id: staffId });
+      await User.deleteOne({ _id: staffId });
       await User.update(
         { _id: req.user._id },
         { staffs: req.user.staffs.filter(e => e._id != staffId) }
@@ -207,12 +207,6 @@ router.delete('/staff/:id', auth, async (req, res) => {
       message: 'You do not have permission to get staff info'
     });
   }
-});
-
-router.delete('/test/:id', auth, async (req, res) => {
-  // const result = await User.update({ _id: req.user._id }, { staffs: [] });
-  let staffId = req.params.id;
-  res.status(200).json({ staffId, id: result[0]._id, test: result[0]._id == staffId });
 });
 
 module.exports = router;
