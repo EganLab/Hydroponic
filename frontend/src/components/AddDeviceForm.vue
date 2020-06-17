@@ -28,8 +28,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "AddDeviceForm",
   data: () => ({
@@ -37,26 +35,15 @@ export default {
     dialog: false
   }),
   methods: {
-    // with http
-    async onAddDevice() {
+    onAddDevice() {
       this.dialog = false;
       if (this.security_code) {
         let device = {
           security_code: this.security_code
         };
 
-        const url = document.URL;
-        const _id = url.substring(url.lastIndexOf("/") + 1);
-
-        axios
-          .post("http://localhost:3000/devices/create/" + _id, device)
-          .then((res) => {
-            console.log("res", res.data.message);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        this.name = "";
+        const cropId = this.$route.path.split("/").pop();
+        this.$store.dispatch("addDevice", { cropId, device });
       }
     },
     async onSave() {
