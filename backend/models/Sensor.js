@@ -12,6 +12,9 @@ const SensorSchema = new Schema({
       bucket: {
         type: Date,
         trim: true
+      },
+      data: {
+        type: Number
       }
     }
   ]

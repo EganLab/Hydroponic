@@ -54,12 +54,21 @@ const addSensor = async req => {
 
           // because of JSON.stringify make 2020-06-12T22:35:21+07:00 -> "2020-06-12T22:35:21+07:00" so dataSet.bucket must start 1 to 13
           if (JSON.stringify(dataSet.bucket).substr(1, 13) === req.created_at.substr(0, 13)) {
-            await Tracking.updateOne(
-              { _id: dataSet._id },
-              {
-                $push: { data: sensor.data }
-              }
-            );
+            let trackingData = await Tracking.findById({ _id: dataSet._id });
+
+            // update bucket
+            dataSet.data =
+              (dataSet.data * trackingData.data.length + sensor.data) /
+              (trackingData.data.length + 1);
+
+            await sensorData.save();
+
+            // update data to traking schema
+            trackingData.data.push(sensor.data);
+            // update created at to traking schema
+            trackingData.created_at.push(req.created_at);
+            // save tracking data
+            trackingData.save();
           } else {
             insertNewData(sensorData._id, sensor.data, req.created_at);
           }
@@ -95,7 +104,7 @@ const insertNewData = async (sensorId, data, created_at) => {
   const sensorData = {
     sensorId,
     data,
-    created_at
+    created_at: [created_at]
   };
   let trackingData = new Tracking(sensorData);
   trackingData = await trackingData.save();
@@ -103,7 +112,7 @@ const insertNewData = async (sensorId, data, created_at) => {
   await Sensor.updateOne(
     { _id: sensorId },
     {
-      $push: { dataSets: [{ _id: trackingData._id, bucket: created_at }] }
+      $push: { dataSets: [{ _id: trackingData._id, bucket: created_at, data: data }] }
     }
   );
 };

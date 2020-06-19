@@ -14,6 +14,7 @@ var devices = require('./routes/devices');
 var actuators = require('./routes/actuators');
 var farms = require('./routes/farms');
 var crops = require('./routes/crops');
+var sensors = require('./routes/sensors');
 
 var rabbitConn = require('./config/rabbitmqConsumer');
 
@@ -70,6 +71,7 @@ app.use('/devices', devices);
 app.use('/actuators', actuators);
 app.use('/farms', farms);
 app.use('/crops', crops);
+app.use('/sensors', sensors);
 
 // launch ======================================================================
 var server = app.listen(3000);
