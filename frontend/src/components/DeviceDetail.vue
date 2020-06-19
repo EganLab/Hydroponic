@@ -2,19 +2,8 @@
   <v-col>
     <h1 class="my-7">{{ data._id }}</h1>
     <h2 class="my-7">Sensor Data</h2>
-    <v-row
-      class="justify-space-between"
-      v-for="testsensor in this.testsensors"
-      :key="testsensor._id"
-    >
-      <Sensors
-        class="my-7"
-        v-bind:name="testsensor.name"
-        v-bind:icon="testsensor.icon"
-        v-bind:gradient="testsensor.gradient"
-        v-bind:unit="testsensor.unit"
-      />
-    </v-row>
+
+    <Sensors class="my-7" v-bind:data_id="data._id" />
 
     <h2 class="my-7">Actuators control</h2>
 
@@ -43,21 +32,7 @@ export default {
   },
   data: () => ({
     sensor: [],
-    actuators: [],
-    testsensors: [
-      {
-        name: "Humidity",
-        icon: "mdi-water",
-        gradient: ["#89f7fe", "#66a6ff"],
-        unit: "% RH"
-      },
-      {
-        name: "Temperature",
-        icon: "mdi-temperature-celsius",
-        gradient: ["#fad0c4", "#ff9a9e"],
-        unit: "°C"
-      }
-    ]
+    actuators: []
   }),
   mounted: async function() {
     await this.getActuators();

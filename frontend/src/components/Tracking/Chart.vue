@@ -3,96 +3,57 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
-  data() {
-    return {
-      gradient: null
-    };
-  },
+  data: () => ({
+    gradient: null
+  }),
   props: {
-    mode: String
+    mode: String,
+    data: Array
   },
   async mounted() {
     await this.loadChart();
   },
   watch: {
-    async mode() {
-      if (this.mode === "Minute") {
-        this.renderChart(
-          {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-              {
-                label: "Data One",
-                borderColor: "#FC2525",
-                pointBackgroundColor: "white",
-                borderWidth: 1,
-                pointBorderColor: "white",
-                backgroundColor: this.gradient,
-                data: [40, 39, 10, 40, 39, 80, 40]
-              }
-            ]
-          },
-          { responsive: true, maintainAspectRatio: false }
-        );
-      } else if (this.mode === "Hour") {
-        this.renderChart(
-          {
-            labels: ["sldksd", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-              {
-                label: "Data One",
-                borderColor: "#FC2525",
-                pointBackgroundColor: "white",
-                borderWidth: 1,
-                pointBorderColor: "white",
-                backgroundColor: this.gradient,
-                data: [40, 39, 10, 40, 39, 80, 40]
-              }
-            ]
-          },
-          { responsive: true, maintainAspectRatio: false }
-        );
-      } else if (this.mode === "From start") {
-        this.renderChart(
-          {
-            labels: ["January", "February", "dsfdsffdsd", "April", "May", "June", "July"],
-            datasets: [
-              {
-                label: "Data One",
-                borderColor: "#FC2525",
-                pointBackgroundColor: "white",
-                borderWidth: 1,
-                pointBorderColor: "white",
-                backgroundColor: this.gradient,
-                data: [40, 39, 10, 40, 39, 80, 40]
-              }
-            ]
-          },
-          { responsive: true, maintainAspectRatio: false }
-        );
-      }
+    async data() {
+      // console.log(this.data);
+      await this.loadData();
     }
   },
   methods: {
     loadChart: async function() {
       this.gradient = this.$refs.canvas.getContext("2d").createLinearGradient(0, 0, 0, 450);
-
+      this.gradient2 = this.$refs.canvas.getContext("2d").createLinearGradient(0, 0, 0, 450);
+      // console.log(this.data);
       this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
       this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
       this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
 
+      this.gradient2.addColorStop(0, "rgba(0, 231, 255, 0.9)");
+      this.gradient2.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
+      this.gradient2.addColorStop(1, "rgba(0, 231, 255, 0)");
+    },
+    loadData: async function() {
       this.renderChart(
         {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          labels: this.data[0].time,
           datasets: [
             {
-              label: "Data One",
+              label: this.data[0].name,
               borderColor: "#FC2525",
               pointBackgroundColor: "white",
               borderWidth: 1,
               pointBorderColor: "white",
               backgroundColor: this.gradient,
-              data: [40, 39, 10, 40, 39, 80, 40]
+              data: this.data[0].data
+            },
+            {
+              label: this.data[1].name,
+              borderColor: "#05CBE1",
+              pointBackgroundColor: "white",
+              borderWidth: 1,
+              pointBorderColor: "white",
+              backgroundColor: this.gradient2,
+              data: this.data[1].data
             }
           ]
         },

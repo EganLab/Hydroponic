@@ -1,18 +1,13 @@
 <template>
   <v-card class="mx-auto" color="grey lighten-4" width="100%">
     <v-card-title>
-      <v-icon :color="gradient[1]" class="mr-12" size="64">{{ icon }}</v-icon>
-      <v-row align="start">
-        <div class="caption grey--text text-uppercase">{{ name }}</div>
-      </v-row>
-      <v-col cols="7"></v-col>
       <v-col class="d-flex" cols="3">
         <v-select v-model="time" :items="items" label="Time"></v-select>
       </v-col>
       <v-spacer></v-spacer>
     </v-card-title>
     <v-sheet color="transparent">
-      <Chart v-bind:mode="this.time" />
+      <Chart v-bind:mode="this.time" v-bind:data="this.data" />
     </v-sheet>
   </v-card>
 </template>
@@ -20,24 +15,41 @@
 <script>
 import Chart from "./Chart";
 
+import axios from "axios";
+
 export default {
   name: "Sensors",
   data: () => ({
-    checking: false,
-    heartbeats: [],
-    items: ["Minute", "Hour", "From start"],
-    time: "Minute"
+    items: ["minute", "hour", "all"],
+    time: "hour",
+    data: []
   }),
   components: {
     Chart
   },
-  props: ["name", "icon", "gradient", "unit"],
+  props: ["data_id"],
   computed: {
     console: () => console
   },
-
+  mounted: async function() {
+    await this.getDataByHour("hour");
+  },
   created() {},
+  watch: {
+    async time() {
+      await this.getDataByHour(this.time);
+    }
+  },
+  methods: {
+    getDataByHour: async function(bucket) {
+      try {
+        let response = await axios.get(`http://localhost:3000/sensors/${bucket}/${this.data_id}`);
 
-  methods: {}
+        this.data = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 };
 </script>
