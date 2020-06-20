@@ -10,6 +10,7 @@ import StaffDetail from "../views/StaffDetail.vue";
 import Tracking from "../views/Tracking.vue";
 import Device from "../views/Device.vue";
 import Welcome from "../views/Welcome.vue";
+import ChangePassword from "../views/ChangePassword.vue";
 import store from "../store";
 
 Vue.use(VueRouter);
@@ -101,6 +102,12 @@ const routes = [
     name: "Signup",
     component: Signup
     // beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: "/change-password",
+    name: "ChangePassword",
+    component: ChangePassword,
+    beforeEnter: ifNotAuthenticated
   }
 ];
 

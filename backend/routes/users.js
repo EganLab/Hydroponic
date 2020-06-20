@@ -5,6 +5,7 @@ const Farm = require('../models/Farm');
 var multer = require('multer');
 var upload = multer({ dest: 'uploads/' });
 var CloudUpload = require('../lib/cloud-upload');
+const bcrypt = require('bcryptjs');
 
 router.post('/', async (req, res) => {
   try {
@@ -207,6 +208,41 @@ router.delete('/staff/:id', auth, async (req, res) => {
       message: 'You do not have permission to get staff info'
     });
   }
+});
+
+router.patch('/changePassword', auth, async (req, res) => {
+  if (await bcrypt.compare(req.body.oldPassword, req.user.password)) {
+    const newPassword = req.body.newPassword;
+    const newPasswordConfirm = req.body.newPasswordConfirm;
+    if (newPassword === newPasswordConfirm) {
+      try {
+        req.user.password = newPassword;
+        req.user.tokens = [];
+        await req.user.save();
+        res.status(200).json({
+          success: true,
+          message: 'Update success'
+        });
+      } catch (error) {
+        res.status(400).json({
+          success: false,
+          message: 'Update error'
+        });
+      }
+    }
+  } else {
+    res.status(400).json({
+      success: false,
+      message: 'Wrong password'
+    });
+  }
+  // res
+  //   .status(200)
+  //   .status({
+  //     body: req.body,
+  //     password: req.user.password,
+  //     // oldPassword: await bcrypt.hash(req.body.oldPassword, 8)
+  //   });
 });
 
 module.exports = router;
