@@ -26,6 +26,7 @@ router.get('/minute/:id', async (req, res) => {
             Promise.resolve(data);
           })
         );
+        temp.bucketId = sensorData.dataSets[0]._id;
         temp.data = data;
         temp.time = time;
         allSensorData.push(temp);

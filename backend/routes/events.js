@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const Tracking = require('../models/Tracking');
 
-const changeStream = User.watch();
+const changeStream = Tracking.watch();
 
 module.exports = function(io) {
   //Socket.IO
@@ -9,13 +9,9 @@ module.exports = function(io) {
     console.log('Socket Connection Established with ID :' + socket.id);
     //ON Events
 
-    socket.on('chat', data => {
-      console.log(data);
-    });
-
     changeStream.on('change', change => {
-      console.log(change); // You could parse out the needed info and send only that data.
-      io.emit('changeData', change.fullDocument);
+      // You could parse out the needed info and send only that data.
+      io.emit(change.documentKey._id, change.documentKey);
     });
     //End ON Events
   });

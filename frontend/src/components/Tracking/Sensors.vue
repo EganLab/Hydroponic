@@ -14,7 +14,7 @@
 
 <script>
 import Chart from "./Chart";
-
+import io from "socket.io-client";
 import axios from "axios";
 
 export default {
@@ -22,7 +22,10 @@ export default {
   data: () => ({
     items: ["minute", "hour", "all"],
     time: "hour",
-    data: []
+    data: [],
+    isInit: false,
+    isLoaded: false,
+    socket: io("localhost:3000")
   }),
   components: {
     Chart
@@ -32,23 +35,36 @@ export default {
     console: () => console
   },
   mounted: async function() {
-    await this.getDataByHour("hour");
+    await this.getDataByTime("hour");
+    this.socket.on("changeData", (data) => {
+      console.log("data", data);
+    });
   },
   created() {},
   watch: {
     async time() {
-      await this.getDataByHour(this.time);
+      await this.getDataByTime(this.time);
     }
   },
   methods: {
-    getDataByHour: async function(bucket) {
+    getDataByTime: async function(bucket) {
       try {
         let response = await axios.get(`http://localhost:3000/sensors/${bucket}/${this.data_id}`);
-
         this.data = response.data;
+        if (bucket === "minute" && !this.isInit) this.initSocket(response.data[0]);
+        this.isLoaded = false;
       } catch (error) {
         console.log(error);
       }
+    },
+    initSocket: async function(change) {
+      this.isInit = true;
+      this.socket.on(change.bucketId, () => {
+        if (!this.isLoaded) {
+          this.getDataByTime("minute");
+          this.isLoaded = true;
+        }
+      });
     }
   }
 };

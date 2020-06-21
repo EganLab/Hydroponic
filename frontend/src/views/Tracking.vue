@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import io from "socket.io-client";
 import axios from "axios";
 import { mapState } from "vuex";
 
@@ -46,8 +45,7 @@ export default {
   data() {
     return {
       name: "",
-      message: "",
-      socket: io("localhost:3000")
+      message: ""
     };
   },
   computed: {
@@ -58,11 +56,6 @@ export default {
   created: async function() {
     const cropId = this.$route.path.split("/").pop();
     this.$store.dispatch("getDeviceList", cropId);
-  },
-  mounted: function() {
-    this.socket.on("changeData", (data) => {
-      console.log("data", data);
-    });
   },
   methods: {
     // with http
@@ -80,18 +73,6 @@ export default {
             console.log(error);
           });
         this.name = "";
-      }
-    },
-    // with socket
-    async sendMessage() {
-      if (this.message) {
-        let message = {
-          handle: this.handle,
-          message: this.message
-        };
-        console.log(message);
-        await this.socket.emit("chat", message);
-        this.message = "";
       }
     }
   }
