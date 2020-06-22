@@ -36,6 +36,9 @@
             <strong>{{ getUserInfo.name }}</strong>
           </v-list-item-title>
         </v-list-item>
+        <v-list-item @click="changePassword">
+          <v-list-item-title>Change password</v-list-item-title>
+        </v-list-item>
         <v-list-item @click="this.logout">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
@@ -62,6 +65,9 @@ export default {
     },
     profile() {
       console.log("profile");
+    },
+    changePassword() {
+      this.$router.push({ name: "ChangePassword" });
     }
   }
 };
