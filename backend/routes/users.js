@@ -236,13 +236,6 @@ router.patch('/changePassword', auth, async (req, res) => {
       message: 'Wrong password'
     });
   }
-  // res
-  //   .status(200)
-  //   .status({
-  //     body: req.body,
-  //     password: req.user.password,
-  //     // oldPassword: await bcrypt.hash(req.body.oldPassword, 8)
-  //   });
 });
 
 module.exports = router;
