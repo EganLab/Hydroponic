@@ -102,7 +102,7 @@ export default {
     phonenumber: "",
     farm: "",
     menu: false,
-    image: "",
+    image: [],
     rules: [(value) => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"],
     newStaff: {
       id: "add new staff",
@@ -128,7 +128,7 @@ export default {
         role: 2,
         phonenumber: this.phonenumber,
         image:
-          this.image !== "" ? this.image : "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
+          this.image !== [] ? this.image : "https://cdn.vuetifyjs.com/images/profiles/marcus.jpg",
         farmId: this.farm
       };
       let formData = new FormData();

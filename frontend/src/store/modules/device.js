@@ -24,11 +24,11 @@ const actions = {
       return false;
     }
   },
-  addDevice: async ({ dispath }, { cropId, device }) => {
+  addDevice: async ({ dispatch }, { cropId, device }) => {
     try {
       const response = await axios.post("http://localhost:3000/devices/create/" + cropId, device);
       if (response.status === 201) {
-        dispath("getDeviceList");
+        dispatch("getDeviceList", cropId);
       }
     } catch (error) {
       return false;
