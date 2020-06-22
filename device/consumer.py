@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import pika
 import json
+import hashlib
 
 connection = pika.BlockingConnection(
     pika.ConnectionParameters(host='localhost', port=5672))
@@ -9,7 +10,10 @@ channel = connection.channel()
 channel.exchange_declare(exchange='logs', exchange_type='fanout')
 
 # 185426 is secury code
-result = channel.queue_declare(queue='185426', exclusive=True)
+str2hash = "123456"
+result = hashlib.md5(str2hash.encode())
+result = channel.queue_declare(
+    queue=result.hexdigest(), exclusive=True)
 queue_name = result.method.queue
 
 channel.queue_bind(exchange='logs', queue=queue_name)

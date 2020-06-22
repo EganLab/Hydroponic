@@ -14,7 +14,7 @@
         <div class="image">
           <v-img :src="require('../../assets/pump.png')" class="my-3 small-image-size" contain />
         </div>
-        <div class="d-flex align-content-center flex-wrap" @click="onControlActuator">
+        <div class="d-flex align-content-center flex-wrap" @click="onControlActuator(pump)">
           <v-switch v-model="pump" :label="`Pump: ${pump.toString()}`" />
         </div>
       </v-row>
@@ -30,7 +30,7 @@
           />
         </div>
         <div class="d-flex align-content-center flex-wrap">
-          <div class="d-flex align-content-center flex-wrap" @click="onControlActuator">
+          <div class="d-flex align-content-center flex-wrap" @click="onControlActuator(lamp)">
             <v-switch v-model="lamp" :label="`Lamp: ${lamp.toString()}`" />
           </div>
         </div>
@@ -59,7 +59,7 @@ export default {
     onControlActuator: async function(status) {
       const payload = {
         _id: this.data._id,
-        status: !!status
+        status: status
       };
       let response = await axios.post("http://localhost:3000/actuators/control", payload);
       console.log(response.data);

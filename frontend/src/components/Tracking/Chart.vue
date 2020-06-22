@@ -33,32 +33,34 @@ export default {
       this.gradient2.addColorStop(1, "rgba(0, 231, 255, 0)");
     },
     loadData: async function() {
-      this.renderChart(
-        {
-          labels: this.data[0].time,
-          datasets: [
-            {
-              label: this.data[0].name,
-              borderColor: "#FC2525",
-              pointBackgroundColor: "white",
-              borderWidth: 1,
-              pointBorderColor: "white",
-              backgroundColor: this.gradient,
-              data: this.data[0].data
-            },
-            {
-              label: this.data[1].name,
-              borderColor: "#05CBE1",
-              pointBackgroundColor: "white",
-              borderWidth: 1,
-              pointBorderColor: "white",
-              backgroundColor: this.gradient2,
-              data: this.data[1].data
-            }
-          ]
-        },
-        { responsive: true, maintainAspectRatio: false }
-      );
+      if (this.data[0]) {
+        this.renderChart(
+          {
+            labels: this.data[0].time,
+            datasets: [
+              {
+                label: this.data[0].name,
+                borderColor: "#FC2525",
+                pointBackgroundColor: "white",
+                borderWidth: 1,
+                pointBorderColor: "white",
+                backgroundColor: this.gradient,
+                data: this.data[0].data
+              },
+              {
+                label: this.data[1].name,
+                borderColor: "#05CBE1",
+                pointBackgroundColor: "white",
+                borderWidth: 1,
+                pointBorderColor: "white",
+                backgroundColor: this.gradient2,
+                data: this.data[1].data
+              }
+            ]
+          },
+          { responsive: true, maintainAspectRatio: false }
+        );
+      }
     }
   }
 };
