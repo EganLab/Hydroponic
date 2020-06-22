@@ -21,7 +21,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col>
+        <v-col v-if="getUserInfo.role === 1">
           <v-row justify="end">
             <v-btn large color="success" class="mx-2">Edit</v-btn>
             <v-btn large color="error" class="mx-2" @click="openDeleteDialog">Delete</v-btn>
@@ -35,7 +35,7 @@
 
 <script>
 import DeleteDialog from "./DeleteDialog";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   name: "FarmProfile",
@@ -49,7 +49,8 @@ export default {
     },
     ...mapState({
       dialog: (state) => state.DialogModule
-    })
+    }),
+    ...mapGetters(["getUserInfo"])
   },
   components: {
     DeleteDialog
