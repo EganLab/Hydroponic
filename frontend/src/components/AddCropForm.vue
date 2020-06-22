@@ -50,7 +50,7 @@ export default {
   data: () => ({
     name: "",
     plant: "",
-    image: "",
+    image: [],
     dialog: false,
     rules: [(value) => !value || value.size < 2000000 || "Avatar size should be less than 2 MB!"],
     newCrop: {
@@ -68,7 +68,7 @@ export default {
         name: this.name,
         plant: this.plant,
         image:
-          this.image !== ""
+          this.image !== []
             ? this.image
             : "https://post.medicalnewstoday.com/wp-content/uploads/sites/3/2020/02/270609_2200-1200x628.jpg"
       };
